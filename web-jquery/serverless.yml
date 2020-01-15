@@ -1,0 +1,27 @@
+# Welcome to Serverless!
+# For full config options, check the docs:
+#    docs.serverless.com
+# Happy Coding!
+
+service: lambda-firewall-web
+
+custom:
+  client:
+    distributionFolder: dist
+    indexDocument: index.html
+    errorDocument: index.html
+    bucketName: inputS3bucketName #update bucket name for website deploy
+
+plugins:
+    - serverless-finch
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  # profile: # update profile-name if used
+
+package: 
+  exclude:
+    - node_modules

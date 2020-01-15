@@ -1,0 +1,782 @@
+# Welcome to Serverless!
+# For full config options, check the docs:
+#    https://serverless.com/framework/docs/providers/aws/
+# Happy Coding!
+
+service: exostack-backend
+
+provider:
+  name: aws
+  runtime: nodejs10.x 
+  stage: ${opt:stage, 'dev'}
+  region: ${file(../envs/${self:provider.stage}.yml):region}
+  profile: ${file(../envs/${self:provider.stage}.yml):profile}
+  deploymentBucket: ${file(../envs/${self:provider.stage}.yml):deploymentBucket}
+  
+  endpointType: REGIONAL
+  versionFunctions: true
+  logRetentionInDays: 14 
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:Query
+        - dynamodb:Scan
+      Resource:
+        - arn:#{AWS::Partition}:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:custom.env.UsersDDBTableName}
+        - arn:#{AWS::Partition}:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:custom.env.UsersDDBTableName}/index/${self:custom.env.UsersDDBTenantIndexName}
+        - arn:#{AWS::Partition}:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:custom.env.TenantsDDBTableName}
+        - arn:#{AWS::Partition}:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:custom.env.CloudsDDBTableName}
+        - arn:#{AWS::Partition}:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:custom.env.CloudsDDBTableName}/index/${self:custom.env.CloudsDDBTenantIndexName}
+        - arn:#{AWS::Partition}:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:custom.env.WorkflowsDDBTableName}
+        - arn:#{AWS::Partition}:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:custom.env.WorkflowsDDBTableName}/index/${self:custom.env.WorkflowsDDBTenantIndexName}
+        - arn:#{AWS::Partition}:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:custom.env.WorkflowsDDBTableName}/index/${self:custom.env.WorkflowsDDBInstanceIndexName}
+        - arn:#{AWS::Partition}:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:custom.env.WorkflowRequestsDDBTableName}
+        - arn:#{AWS::Partition}:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:custom.env.WorkflowRequestsDDBTableName}/index/${self:custom.env.WorkflowRequestsDDBTenantIndexName}
+        - arn:#{AWS::Partition}:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:custom.env.SchedulesDDBTableName}
+    - Effect: Allow
+      Action:
+        - sts:AssumeRole
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - pricing:DescribeServices
+        - pricing:GetAttributeValues
+        - pricing:GetProducts
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - apigateway:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - states:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - ses:SendEmail
+      Resource: "*" 
+
+  apiKeys: # List of API keys to be used by your service API Gateway REST API
+    - LFW_Admin_ApiKey-${self:provider.stage}
+  usagePlan:
+    quota:
+      limit: 50000
+      period: DAY
+      # offset: 1
+    # throttle:
+    #   burstLimit: 200
+    #   rateLimit: 100
+  apiGateway:
+    apiKeySourceType: HEADER
+
+  # you can define service wide environment variables here
+  environment: ${self:custom.env}
+
+functions:
+
+  authorizerFunc:
+    handler: authFunc.handler
+    memorySize: 128
+    timeout: 10
+
+  userConfirmationTrigger:
+    handler: cognito.userConfirmationTrigger
+    memorySize: 128
+    timeout: 10
+    # events:
+    #   - cognitoUserPool:
+    #       pool: AppUsers
+    #       trigger: PostConfirmation
+    #       existing: true
+
+  workspaces:
+    handler: workspaces.handler
+    memorySize: 256
+    timeout: 30
+    events:
+      - http:
+          method: GET
+          path: clouds/{accountId}/regions/{region}/workspaces
+          private: false
+          cors: true
+          request:
+            parameters:
+              paths:
+                - accountId
+                - region
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: GET
+          path: clouds/{accountId}/regions/{region}/workspaces/{workspaceId}
+          private: false
+          cors: true
+          request:
+            parameters:
+              paths:
+                - accountId
+                - region
+                - workspaceId
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: POST
+          path: clouds/{accountId}/regions/{region}/workspaces/{workspaceId}/{action}
+          private: false
+          cors: true
+          request:
+            parameters:
+              paths:
+                - accountId
+                - region
+                - workspaceId
+                - action
+          authorizer: ${file(authorizer.yml):authorizer}
+
+  workflow:
+    handler: workflow.handler
+    memorySize: 512
+    timeout: 20
+    events:
+      - http:
+          method: GET
+          path: clouds/{accountId}/regions/{region}/workflows/params/resourceTypes
+          private: false
+          cors: true
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: GET
+          path: clouds/{accountId}/regions/{region}/workflows/params/{resourceType}
+          private: false
+          cors: true
+          request:
+            parameters:
+              paths:
+                - accountId
+                - region
+                - resourceType
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: POST
+          path: clouds/{accountId}/regions/{region}/workflows/params/EC2/validate
+          private: false
+          cors: true
+          request:
+            parameters:
+              paths:
+                - accountId
+                - region
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: POST
+          path: clouds/{accountId}/regions/{region}/workflows/params/WorkSpaces/validate
+          private: false
+          cors: true
+          request:
+            parameters:
+              paths:
+                - accountId
+                - region
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: GET
+          path: clouds/{accountId}/regions/{region}/workflows
+          private: false
+          cors: true
+          request:
+            parameters:
+              paths:
+                - accountId
+                - region
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: GET
+          path: clouds/{accountId}/regions/{region}/workflows/{workflowId}
+          private: false
+          cors: true
+          request:
+            parameters:
+              paths:
+                - accountId
+                - region
+                - workflowId
+              # querystrings:
+              #   details: true
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: GET
+          path: clouds/{accountId}/regions/{region}/workflows/instances/{instanceId}
+          private: false
+          cors: true
+          request:
+            parameters:
+              paths:
+                - accountId
+                - region
+                - instanceId
+              # querystrings:
+              #   details: true
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: POST
+          path: clouds/{accountId}/regions/{region}/workflows
+          private: false
+          cors: true
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: PATCH
+          path: clouds/{accountId}/regions/{region}/workflows
+          private: false
+          cors: true
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: DELETE
+          path: clouds/{accountId}/regions/{region}/workflows
+          private: false
+          cors: true
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: GET
+          path: clouds/{accountId}/regions/{region}/workflows/requests
+          private: false
+          cors: true
+          request:
+            parameters:
+              paths:
+                - accountId
+                - region
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: POST
+          path: clouds/{accountId}/regions/{region}/workflows/requests
+          private: false
+          cors: true
+          request:
+            parameters:
+              paths:
+                - accountId
+                - region
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: POST
+          path: clouds/{accountId}/regions/{region}/workflows/requests/pricing
+          private: false
+          cors: true
+          request:
+            parameters:
+              paths:
+                - accountId
+                - region
+          authorizer: ${file(authorizer.yml):authorizer}
+
+  workflowTasks:
+    handler: workflow.tasks
+    memorySize: 128
+    timeout: 10
+    events:
+      - http:
+          method: GET
+          path: workflows/requests/{requestId}/{action} #?responseToken={taskToken}
+          private: false
+          cors: true
+          request:
+            parameters:
+              querystrings:
+                responseToken: true
+              paths:
+                # - accountId
+                # - region
+                - requestId
+                - action
+          # authorizer: ${file(authorizer.yml):authorizer}
+
+  registration:
+    handler: registration.handler
+    memorySize: 128
+    timeout: 10
+    events:
+      - http:
+          method: POST
+          path: registration/tenant
+          private: false
+          cors: true
+      - http:
+          method: POST
+          path: registration/connectclouds
+          request:
+            parameters:
+            querystrings:
+                test: true
+          private: false
+          cors: true
+      - http:
+          method: POST
+          path: registration/connectclouds/auth
+          request:
+            parameters:
+              querystrings:
+                test: true
+                mode: true
+          private: false
+          cors: true
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: POST
+          path: registration/cancel
+          private: false
+          cors: true
+
+  whatsmyip:
+    handler: handler.whatsmyip
+    memorySize: 128
+    timeout: 10
+    events:
+      - http:
+          method: GET
+          path: whatsmyip
+          cors: true
+
+  modifyInstance:
+    handler: handler.modifyInstance
+    memorySize: 128
+    timeout: 10
+    events:
+      - http:
+          method: GET
+          path: clouds
+          # integration: lambda
+          # private: true
+          cors: true
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: DELETE
+          path: clouds/{accountId}
+          # private: true
+          cors: true
+          authorizer: ${file(authorizer.yml):authorizer}
+          request:
+            parameters:
+              paths:
+                - accountId
+      - http:
+          method: GET
+          path: clouds/{accountId}/regions
+          # private: true
+          cors: true
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: GET
+          path: clouds/{accountId}/regions/{region}/s3Buckets
+          # private: true
+          cors: true
+          authorizer: ${file(authorizer.yml):authorizer}
+          request:
+            parameters:
+              paths:
+                - accountId
+                - region
+      - http:
+          method: GET
+          path: clouds/{accountId}/regions/{region}/instances
+          # private: true
+          cors: true
+          authorizer: ${file(authorizer.yml):authorizer}
+          request:
+            parameters:
+              paths:
+                - accountId
+                - region
+      - http:
+          method: POST
+          path: clouds/{accountId}/regions/{region}/instances/{instanceId}/{action}
+          request:
+            parameters:
+              paths:
+                - accountId
+                - region
+                - instanceId
+                - action
+          # private: true
+          cors: true
+          authorizer: ${file(authorizer.yml):authorizer}
+
+  modifyAccess:
+    handler: handler.modifyAccess
+    memorySize: 128
+    timeout: 10
+    events:
+      - http:
+          method: GET
+          path: clouds/{accountId}/regions/{region}/vpn/list/{username}
+          request:
+            parameters:
+              paths:
+                - username
+          # private: true
+          cors: true
+          authorizer: ${file(authorizer.yml):authorizer}
+
+  cleanupAccess:
+    handler: handler.cleanupAccess
+    memorySize: 128
+    timeout: 10
+    events:
+      - schedule:
+          rate: rate(5 minutes)
+          name: cleanup-all-vpn-access-ingress-rules-${self:provider.stage}
+          description: 'removes expired ingress rules from VPN whitelist Security groups'
+          enabled: true
+          input:
+            cleanup: true
+
+  modifyUser:
+    handler: userHandler.modifyUser
+    memorySize: 128
+    timeout: 10
+    events:
+      - http:
+          method: GET
+          path: subscription
+          # private: true
+          cors: true
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: GET
+          path: users
+          # private: true
+          cors: true
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: GET
+          path: /users/{username}/tags
+          # private: true
+          cors: true
+          authorizer: ${file(authorizer.yml):authorizer}
+          request:
+            parameters:
+              paths:
+                - username
+      - http:
+          method: POST
+          path: /users/{username}/tags
+          # private: true
+          cors: true
+          authorizer: ${file(authorizer.yml):authorizer}
+          request:
+            parameters:
+              paths:
+                - username
+      - http:
+          method: POST
+          path: users/create
+          # private: true
+          cors: true
+          authorizer: ${file(authorizer.yml):authorizer}
+      - http:
+          method: POST
+          path: users/auth
+          # private: true
+          cors: true
+      - http:
+          method: POST
+          path: users/status
+          # private: true
+          cors: true
+          authorizer: ${file(authorizer.yml):authorizer}
+
+  scavenger:
+    handler: scheduler.scavenger
+    events:
+      - stream:
+          type: dynamodb
+          arn:
+            Fn::GetAtt: [ SchedulesDDBTable , StreamArn ]
+          batchSize: 1
+          startingPosition: LATEST
+          enabled: true
+
+  schedules:
+    handler: scheduler.handler
+    events:
+      - http:
+          method: GET
+          path: clouds/{accountId}/regions/{region}/schedules/{objectKey}/{resourceType}
+          request:
+            parameters:
+              paths:
+                - accountId
+                - region
+                - objectKey
+                - resourceType
+          cors: true
+          authorizer: ${file(authorizer.yml):authorizer}
+
+stepFunctions:
+  stateMachines:
+    WorkflowApprovalStateMachine: ${file(approval.yml):approval} 
+
+package:
+  include: # add any package dependencies here
+    - '!**/node_modules/aws-sdk'
+    - ./node_modules/date-fns #/**
+    - ./node_modules/is-ip #/**
+    - ./node_modules/ip-regex #/**
+    - ./node_modules/uuid #/**
+    - ./node_modules/shortid #/**
+    - ./node_modules/nanoid #/**
+    - ./node_modules/jsonpath #/**
+    - ./node_modules/underscore #/**
+    - ./node_modules/esprima #/**
+    - ./node_modules/static-eval #/**
+    - ./node_modules/escodegen #/**
+    - ./node_modules/estraverse #/**
+    - ./node_modules/esutils #/**
+    - ./node_modules/optionator #/**
+    - ./node_modules/source-map #/**
+    - ./node_modules/node-jose #/**
+    - ./node_modules/base64url #/**
+    - ./node_modules/es6-promise #/**
+    - ./node_modules/lodash #/**
+    - ./node_modules/long #/**
+    - ./node_modules/node-forge #/**
+    - ./node_modules/uuid #/**
+  individually: false
+  excludeDevDependencies: true 
+
+plugins:
+  - serverless-jetpack
+  - serverless-step-functions
+  - serverless-pseudo-parameters
+  - serverless-offline-scheduler
+  - serverless-dynamodb-local
+  - serverless-offline
+
+custom:
+  env:   
+    CognitoUserPoolID: us-east-1_ZSsnz2Wiq  # TO BE UPDATED AFTER COGNITO STACK DEPLOYMENT
+    EmailSenderAddress: noreply@domain #email address to use. Make sure to add to SES and verify
+    CognitoUserPoolRegion: us-east-1 #desired region
+    
+    usagePlanId: ''
+    protocol: tcp
+    durationHours: 1
+    TagNameVPNWhitelistSG: Exostack_VPNWhitelistSG
+    TagNameVPNWhitelistSGInstance: VPNWhitelistSGInstance
+    AdminKey: ADMINKEY
+    UsersDDBTableName: PortalUsers-${self:provider.stage}
+    UsersDDBTenantIndexName: PortalUsers-tenantID-index-${self:provider.stage}
+    TenantsDDBTableName: PortalTenants-${self:provider.stage}
+    CloudsDDBTableName: PortalClouds-${self:provider.stage}
+    CloudsDDBTenantIndexName: PortalClouds-tenantId-index-${self:provider.stage}
+    WorkflowsDDBTableName: PortalWorkflows-${self:provider.stage}
+    WorkflowsDDBTenantIndexName: PortalWorkflows-tenantId-index-${self:provider.stage}
+    WorkflowsDDBInstanceIndexName: PortalWorkflows-instanceId-index-${self:provider.stage}
+    WorkflowRequestsDDBTableName: PortalWorkflowRequests-${self:provider.stage}
+    WorkflowRequestsDDBTenantIndexName: PortalWorkflowRequests-tenantId-index-${self:provider.stage}
+    SchedulesDDBTableName: PortalSchedules-${self:provider.stage}
+    WorkflowApprovalStateMachineARN: ${self:resources.Outputs.WorkflowApprovalStateMachineArn.Value}
+    ApprovalMailLinksValidityHrs: 120
+    ApiGatewayBaseURL: 
+      Fn::Join:
+          - ""
+          - - "https://"
+            - Ref: "ApiGatewayRestApi"
+            - ".execute-api.${self:provider.region}.amazonaws.com/${self:provider.stage}"
+    # MAX_INBOUND_RULES_PER_SG: 6 # 60
+    # AWS_REGION_DEVTEST: ${self:provider.region}
+
+# you can add CloudFormation resource templates here
+resources:
+  Description: Serverless stack for the Exostack Self-Service Portal
+
+  Outputs:
+    ApiGatewayUsagePlanID:
+      Description: 'Usage plan ID'
+      Value:
+        Ref: ApiGatewayUsagePlan
+    WorkflowApprovalStateMachineArn:
+      Description: 'ARN of the workflow approval state machine'
+      Value:
+        Ref: WorkflowApprovalStateMachine
+    ApprovalWorkflowTaskManagerArn:
+      Description: 'ARN of the workflow task manager Lambda function'
+      Value:
+        Ref: WorkflowTasksLambdaFunction
+
+  Resources:
+    # Approval Workflow State-machine Role
+    ApprovalStateMachineRole:
+      Type: AWS::IAM::Role
+      Properties: 
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Action: sts:AssumeRole
+              Effect: Allow
+              Principal:
+                Service: states.${self:provider.region}.amazonaws.com
+        Path: /
+        Policies:
+        - 
+          PolicyName: exostack-backend-prod1-statemachine-${self:provider.stage}-${self:provider.region}
+          PolicyDocument:
+            Statement:
+            - Action: lambda:InvokeFunction
+              Effect: Allow
+              Resource: '*'
+
+    # DynamoDb Tables
+    UsersDDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.env.UsersDDBTableName}
+        AttributeDefinitions:
+          - AttributeName: username
+            AttributeType: S
+          - AttributeName: tenantID
+            AttributeType: S
+          # - AttributeName: apiKey
+          #   AttributeType: S
+        KeySchema:
+          - AttributeName: username
+            KeyType: HASH
+          # - AttributeName: apiKey
+          #   KeyType: RANGE
+        GlobalSecondaryIndexes: 
+          - IndexName: ${self:custom.env.UsersDDBTenantIndexName}
+            KeySchema: 
+              - AttributeName: tenantID
+                KeyType: HASH
+            Projection: 
+              ProjectionType: ALL 
+        BillingMode: PAY_PER_REQUEST
+        SSESpecification: 
+          SSEEnabled: true
+    TenantsDDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.env.TenantsDDBTableName}
+        AttributeDefinitions:
+          - AttributeName: tenantId
+            AttributeType: S
+          # - AttributeName: apiKey
+          #   AttributeType: S
+        KeySchema:
+          - AttributeName: tenantId
+            KeyType: HASH
+          # - AttributeName: apiKey
+          #   KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        SSESpecification: 
+          SSEEnabled: true
+    CloudsDDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.env.CloudsDDBTableName}
+        AttributeDefinitions:
+          - AttributeName: tenantId
+            AttributeType: S
+          - AttributeName: accountId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: tenantId
+            KeyType: HASH
+          - AttributeName: accountId
+            KeyType: RANGE
+        GlobalSecondaryIndexes: 
+          - IndexName: ${self:custom.env.CloudsDDBTenantIndexName}
+            KeySchema: 
+              - AttributeName: tenantId
+                KeyType: HASH
+            Projection: 
+              ProjectionType: ALL 
+        BillingMode: PAY_PER_REQUEST
+        SSESpecification:
+          SSEEnabled: true
+    WorkflowsDDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.env.WorkflowsDDBTableName}
+        AttributeDefinitions:
+          - AttributeName: tenantId
+            AttributeType: S
+          - AttributeName: workflowId
+            AttributeType: S
+          - AttributeName: instanceId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: tenantId
+            KeyType: HASH
+          - AttributeName: workflowId
+            KeyType: RANGE
+        GlobalSecondaryIndexes: 
+          - IndexName: ${self:custom.env.WorkflowsDDBTenantIndexName}
+            KeySchema: 
+              - AttributeName: tenantId
+                KeyType: HASH
+            Projection: 
+              ProjectionType: ALL 
+          - IndexName: ${self:custom.env.WorkflowsDDBInstanceIndexName}
+            KeySchema: 
+              - AttributeName: tenantId
+                KeyType: HASH
+              - AttributeName: instanceId
+                KeyType: RANGE
+            Projection: 
+              ProjectionType: ALL 
+        BillingMode: PAY_PER_REQUEST
+        SSESpecification: 
+          SSEEnabled: true
+    WorkflowRequestsDDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.env.WorkflowRequestsDDBTableName}
+        AttributeDefinitions:
+          - AttributeName: workflowId # tenantId
+            AttributeType: S
+          - AttributeName: workflowRequestId
+            AttributeType: S
+          - AttributeName: tenantId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: workflowId
+            KeyType: HASH
+          - AttributeName: workflowRequestId
+            KeyType: RANGE
+        GlobalSecondaryIndexes: 
+          - IndexName: ${self:custom.env.WorkflowRequestsDDBTenantIndexName}
+            KeySchema: 
+              - AttributeName: tenantId
+                KeyType: HASH
+            Projection: 
+              ProjectionType: ALL 
+        BillingMode: PAY_PER_REQUEST
+        SSESpecification: 
+          SSEEnabled: true
+    SchedulesDDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.env.SchedulesDDBTableName}
+        AttributeDefinitions:
+          - AttributeName: contextKey
+            AttributeType: S
+          - AttributeName: objectKey
+            AttributeType: S
+          # - AttributeName: expirationTime
+          #   AttributeType: N
+        KeySchema:
+          - AttributeName: contextKey
+            KeyType: HASH
+          - AttributeName: objectKey
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        SSESpecification: 
+          SSEEnabled: true
+        TimeToLiveSpecification:
+          AttributeName: expirationTime
+          Enabled: true
+        StreamSpecification:
+          StreamViewType: OLD_IMAGE 

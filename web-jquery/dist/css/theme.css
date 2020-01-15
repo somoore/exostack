@@ -1,0 +1,170 @@
+/* * {
+  font-size: 16px;
+  line-height: 2;
+} */
+
+body {
+  /* font-family:'Rubik',sans-serif!important;   */
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* .btn.active {
+
+} */
+/* .disableContinue {
+
+} */
+
+.jumbotron h4 {
+  font-family:'Rubik',sans-serif!important;  
+  font-size:18px!important;
+}
+
+table {
+  font-size: 14px;
+  line-height: 2;
+}
+
+.table td, .table th {
+  vertical-align: middle!important;
+  text-align: center!important;
+}
+
+thead tr {
+  height:50px;
+}
+
+tbody tr {
+  height:100px;
+  vertical-align: middle
+}
+
+label {
+  font-size: 0.9rem;
+  color: black!important;
+}
+
+label.text-normal {
+  font-size: 1.0rem;
+  color: black!important;
+}
+
+.text-tiny {
+  font-size: 0.8rem;
+}
+/* 
+input[readonly]{
+  background-color:transparent;
+  border: 0;
+  font-size: 1em;
+} */
+
+#createWorkflowForm .input-field.inline .select-wrapper input.select-dropdown {
+  font-size: 0.9rem;
+  color: black!important;
+  margin-bottom: 0!important;
+  border-bottom: thin gray dashed;
+}
+/* 
+input[type="range"] {
+  transform: rotate(0deg);
+} */
+
+.dropdown-content li>a, .dropdown-content li>span {
+  color: black!important;
+  font-size: 0.9rem;
+}
+
+.select-dropdown li.disabled, .select-dropdown li.disabled>span, 
+.select-dropdown li.optgroup, .select-dropdown li.optgroup>span {
+  color: rgba(0,0,0,0.4)!important;
+}
+
+.select-wrapper input.select-dropdown {
+  font-size: 0.9rem!important;
+}
+
+[type="checkbox"]+span:not(.lever) {
+  font-size: 0.9rem!important;
+}
+
+/* disable the subnet/SG items till VPC is selected */
+input[type=checkbox][disabled] + label {
+  color: #ccc!important;
+}
+
+.item-check-clear-selected {
+  width: 1rem!important;
+  height: 1rem;
+  border-radius: 50%;
+  background: whitesmoke; 
+  text-align: center;
+  margin-right: 0!important;
+}
+
+.text-small {
+  font-size: .9rem!important;  
+}
+
+.input-small {
+  font-size: .9rem!important;
+  max-width: 70%!important;
+}
+
+.collapsible-body {
+  padding: 1.5rem;
+}
+
+.dropdown-content {
+  max-height: 350px !important;
+  overflow-y: auto !important;
+  backface-visibility: hidden !important;
+}
+
+.nav-brand-logo {
+  font-family:'Rubik',sans-serif!important;
+  font-size:20px;
+  /* box-shadow: 0 4px 8px 0 rgba(240, 234, 151, 0.12),
+            0 2px 4px 0 rgba(114, 122, 165, 0.08); */
+  text-shadow: 1px 5px 1px #3f51b5, -1px -1px 1px #3f51b5;
+  user-select: none;
+}
+
+
+.theme-showcase>p>.btn {
+  margin: 5px 0;
+}
+
+#loadDiv
+{
+  text-align: center
+}
+
+#registrationForm,
+#signinForm,
+#verifyForm {
+  text-align: center
+}
+
+/* .authenticated {
+  display: none !important;
+} */
+
+.refresher {
+    background:none!important;
+    color:inherit;
+    border:none; 
+    /* padding:0!important; */
+    font: inherit;
+    cursor: pointer;
+}
+
+.methodMessage {
+  text-align: left;
+  margin-top: 6px;
+}
+
+.methodCommand {
+  text-align: right;
+}

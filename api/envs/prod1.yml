@@ -1,0 +1,7 @@
+region: us-east-1 #region to deploy exostack core to
+
+## UPDATE WITH S3 DEPLOYMENT BUCKET NAME
+deploymentBucket: s3BucketName
+
+## UPDATE IF USING A SAVED AWS CLI PROFILE
+profile: awsCLIprofile 

@@ -1,0 +1,11 @@
+{
+  "name": "exostack-backend-resources",
+  "version": "1.0.0",
+  "description": "Sets up Cognito User Pool and App Client required for the Exostack backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Exostack",
+  "license": "ISC"
+}

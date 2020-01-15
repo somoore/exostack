@@ -1,0 +1,72 @@
+approval:
+  name: WorkflowApprovalStateMachine-${self:provider.stage}
+  id: WorkflowApprovalStateMachine
+  role:
+    Fn::GetAtt: [ ApprovalStateMachineRole, Arn ] 
+  definition:
+    Comment: Approval Workflow for Resource Requests
+    StartAt: CheckIfAutoApprove
+    States:
+      CheckIfAutoApprove:
+        Comment: Checks if the workflow is configured to be auto-approved 
+        Type: Choice
+        Choices:
+        - Variable: $.approvers[0]
+          StringEquals: auto-approve
+          Next: AutoApproval
+        Default: ManualApproval
+      AutoApproval:
+        Comment: Passes through to the auto approval flow
+        Type: Pass
+        Result: true
+        ResultPath: $.AutoApproved
+        Next: LaunchResource
+      ManualApproval:
+        Comment: Passes through to the manual approval flow
+        Type: Pass
+        Result: false
+        ResultPath: $.AutoApproved
+        Next: ParallelMailer
+      ParallelMailer:
+        Type: Parallel
+        Next: ConsolidateApprovals
+        Branches:
+          - StartAt: MailWaitApprover1
+            States:
+              MailWaitApprover1:
+                Type: Task
+                ResultPath: $.outcome
+                Resource: arn:#{AWS::Partition}:states:::lambda:invoke.waitForTaskToken
+                Parameters:
+                  FunctionName: arn:#{AWS::Partition}:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-workflowTasks
+                  Payload:
+                    input.$: $
+                    mailApprover: true
+                    approverNumber: 1
+                    taskToken.$: $$.Task.Token
+                End: true
+          - StartAt: MailWaitApprover2
+            States:
+              MailWaitApprover2:
+                Type: Task
+                ResultPath: $.outcome
+                Resource: arn:#{AWS::Partition}:states:::lambda:invoke.waitForTaskToken
+                Parameters:
+                  FunctionName: arn:#{AWS::Partition}:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-workflowTasks
+                  Payload:
+                    input.$: $
+                    mailApprover: true
+                    approverNumber: 2
+                    taskToken.$: $$.Task.Token
+                End: true
+        # Catch: 
+        # - ErrorEquals: [ States.ALL ]
+        #   End: true
+      ConsolidateApprovals:
+        Type: Pass
+        # InputPath: $.[0]
+        Next: LaunchResource
+      LaunchResource:
+        Type: Task
+        Resource: arn:#{AWS::Partition}:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-workflowTasks
+        End: true

@@ -1,0 +1,1712 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>exostack</title>
+
+    <!-- MaterializeCSS Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <!-- FontAwesome -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" /> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Rubik:500" rel="stylesheet">
+
+    <!-- noUISlider -->
+    <link href="js/nouislider/material-css-custom-nouislider/nouislider.css" rel="stylesheet">
+    <!-- <link href="js/nouislider/distribute/nouislider.min.css" rel="stylesheet"> -->
+
+    <!-- Custom styles for this template -->
+    <link href="css/theme.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container theme-showcase" role="main">
+        <!-- Top Main Navbar -->
+        <nav class="navbar navbar-expand-sm navbar-dark blue-grey darken-3 mb-1">
+            <a class="navbar-brand nav-brand-logo d-none d-sm-block" draggable="false" href="#">
+                <!-- <span class="nav-brand-logo"> -->
+                    <span>
+                        <strong>&lt;</strong>
+                        &nbsp;<i class="fas fa-layer-group"></i>&nbsp;
+                        <strong>&gt;</strong>&nbsp;exostack&nbsp;
+                        <!-- <span class="material-icons">cloud</span> -->
+                    </span>
+                <!-- </span> -->
+                </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown authenticated profile config" hidden>
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                            <span id="loggedin-username"></span>&nbsp;&nbsp;
+                            <span class="fa fa-user fa-lg"></span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="showDashboard" href="#" class="dropdown-item profile config" hidden>
+                                <span><i class="material-icons md-18" style="display:inline-block;vertical-align:middle">dashboard</i>
+                                    &nbsp;Dashboard
+                                </span>
+                            </a>        
+                            <a id="userProfile" href="#" class="dropdown-item authenticated config">
+                                <span><i class="material-icons md-18" style="display:inline-block;vertical-align:middle">assignment_ind</i>
+                                    &nbsp;Profile
+                                </span>
+                            </a>
+                            <a id="tenantConfig" href="#" class="dropdown-item authenticated admin">
+                                <span><i class="material-icons md-18" style="display:inline-block;vertical-align:middle">settings</i>
+                                    &nbsp;Configuration
+                                </span>
+                            </a>
+                            <!-- <a id="signOut" href="#" class="dropdown-item">
+                                <span><i class="material-icons md-18" style="display:inline-block;vertical-align:middle">power_settings_new</i>
+                                    &nbsp;Sign Out
+                                </span>
+                            </a> -->
+                        </div>
+                    </li>
+                    <a href="register.html" class="nav-link unauthenticated" hidden>Register</a>
+                    <a id="signOut" href="#" class="nav-link authenticated profile config" hidden><span>&nbsp;|&nbsp;&nbsp;Sign Out</span></a>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- bottom footer -->
+        <nav class="navbar navbar-expand-sm fixed-bottom navbar-light bg-light p-1" style="height:20px; z-index:0">
+            <span class="navbar-text">
+                &copy; <script type="text/javascript">document.write(new Date().getFullYear());</script> exostack.com
+            </span>
+        </nav>
+
+        <!-- Cloud and Region selection nav bar -->
+        <nav class="navbar navbar-expand-sm navbar-dark blue-grey darken-2 mb-3 authenticated" hidden>
+            <div class="input-group col-md-2 d-none d-md-block"></div>
+            <div class="input-group col-md-6 col-sm-8">
+                <div class="input-group-prepend d-none d-md-block">
+                    <label class="input-group-text" for="cloudSelector">Cloud</label>
+                </div>
+                <select class="custom-select" id="cloudSelector">
+                </select>
+            </div>
+            <div class="input-group col-md-4 col-sm-4">
+                <div class="input-group-prepend d-none d-md-block">
+                    <label class="input-group-text" for="regionSelector">Region</label>
+                </div>
+                <select class="custom-select" id="regionSelector">
+                </select>
+            </div>
+        </nav>
+
+        <!-- Main jumbotron -->
+        <div class="jumbotron unauthenticated" hidden>
+            <h4 class="display-1">
+                <strong>Welcome to Exostack</strong>
+            </h4>
+            <hr/>
+            <p class="lead">
+                <ul>
+                    <li>Please sign-in with your credentials (username/API key OR email/password) provided by your administrator.</li>
+                    <li>Once you've signed-in, use the Action button to start, stop, reboot or enable VPN access for an
+                        instance.</li>
+                    <li>Admin only: Administer users and VPN access rules.</li>
+                </ul>
+            </p>
+        </div>
+
+        <!-- Progress bar loading indicator -->
+        <div style="height: 3px">
+            <div class="progress" style="width: 100%; height: 2px" id="loadDiv" hidden>
+                <div class="indeterminate"></div>
+            </div>
+        </div>
+
+        <!-- Sign-In form -->
+        <div class="row unauthenticated" id="signinInfo" hidden>
+            <div class="col-md-8 col-lg-6 mr-auto ml-auto">
+                <div class="card border-dark">
+                    <div class="card-header bg-primary text-white">
+                        Sign In
+                    </div>
+                    <div class="card-body">
+                        <!-- <h5 class="card-subtitle mb-2">Sign-In</h5> -->
+                        <form id="signinForm">
+                            <div class="input-field">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input type="email" id="emailInputSignin" class="validate" value="" required autofocus>
+                                <label for="emailInputSignin">Email</label>
+                                <span class="helper-text" data-error="email required"></span>
+                            </div>
+                            <div class="input-field">
+                                <div class="input-field" id="show_hide_password">
+                                    <!-- placeholder="Password"  -->
+                                    <i class="material-icons prefix">visibility</i>
+                                    <input type="password" id="apiKeyInputSignin" class="validate" value="" required>
+                                    <label for="apiKeyInputSignin">Password</label>
+                                    <span class="helper-text" data-error="required"></span>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary light-blue" type="submit">Sign In</button>
+                        </form>
+                        </div>
+                    <!-- <div class="card-footer alert alert-danger auth-message" id="auth-message" hidden>
+                        Please check your credentials and retry, or contact your admin for assistance.
+                    </div> -->
+                    <div class="card-footer alert alert-danger auth-message" id="auth-message-error" hidden>
+                        An error occured when attempting to authenticate!
+                        Please retry again later, or contact your admin for assistance if the issue persists.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Profile Info page -->
+        <div class="row profile" id="userProfileContainer" hidden>
+            <div class="col-md-10 mr-auto ml-auto">
+                <div class="m-4">
+                    <h5>User Profile</h5>
+                </div>
+                <hr />
+                <ul class="collapsible popout" id="userProfileInfo" >
+                    <li data-profile-section="account">
+                        <div class="collapsible-header"><i class="material-icons">account_box</i>Account</div>
+                        <div class="collapsible-body">
+                            <div class="row">
+                                <div class="input-field col s3">
+                                    <input id="inputProfileFirstName" type="text" readonly>
+                                    <label for="inputProfileFirstName">First Name</label>
+                                </div>
+                                <div class="input-field col s3">
+                                    <input id="inputProfileLastName" type="text" readonly>
+                                    <label for="inputProfileLastName">Last Name</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s3">
+                                    <input id="inputProfileEmail" type="text" readonly>
+                                    <label for="inputProfileEmail">Email</label>
+                                </div>
+                                <div class="input-field col s3">
+                                    <input id="inputProfileAppRole" type="text" readonly>
+                                    <label for="inputProfileAppRole">App Role</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <button type="submit" id="editProfileAttributes" class="btn btn-info btn-disabled" disabled>
+                                    Edit (//TODO)
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                    <li data-profile-section="tags">
+                        <div class="collapsible-header"><i class="material-icons">local_offer</i>Tags</div>
+                        <div class="collapsible-body">
+                            <form id="updateTagsForm">
+                                <div class="row">
+                                    <span class="text-muted"><small>Only resources tagged with <strong>All</strong> the configured tags will be displayed. <br/>
+                                    If No tags are configured, ALL resources will be displayed</small></span>
+                                </div>
+                                <div class="row">
+                                    <label for="inputUserChips">Tags for resource filters</label>
+                                    <div id="chipsUserTags" class="chips col-md-9">
+                                        <input id="inputUserChips" style="width:100% !important" value="" />
+                                        <hidden id="hiddenAwsUserTags" name="inputUserTags" value="" />
+                                        <!-- <span class="helper-text" data-error="max 4 tag pairs in format (TagName = Value), name & value length under 20 chars"></span> -->
+                                    </div>
+                                </div>
+                                <div class="row"  class="admin">
+                                    <div class="col-md-4 offset-md-8 btn-group">
+                                        <button type="button" id="editProfileTags" class="btn btn-primary">
+                                            Save
+                                        </button>
+                                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <button type="button" id="shareProfileTags" class="btn btn-disabled" disabled>
+                                                <i class="material-icons left">share</i>Share (//TODO)
+                                            </button>        
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+                    <li data-profile-section="mfa">
+                        <div class="collapsible-header"><i class="material-icons">screen_lock_portrait</i>MFA</div>
+                        <div class="collapsible-body">
+                            <form id="updateMfaOptionsForm">
+                                <div class="row">
+                                    <div class="col md-4">TOTP (Software Token)</div>
+                                    <div class="switch">
+                                        <label>
+                                            Disable
+                                            <input type="checkbox" id="mfaChoiceTOTP" name="mfaChoiceTOTP">
+                                            <span class="lever"></span>
+                                            Enable
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col md-4"><span>SMS MFA <small>(requires phone_number opt-in, coming soon!)</small></span></div>
+                                    <div class="switch">
+                                        <label>
+                                            Disable
+                                            <input type="checkbox" id="mfaChoiceSMS" disabled>
+                                            <span class="lever"></span>
+                                            Enable
+                                        </label>
+                                    </div>
+                                </div>
+                                <div id="configureMFADetails" hidden>
+                                    <!-- <button type="button" id="updateMfaOptions" class="btn btn-info">
+                                        Setup MFA
+                                    </button> -->
+                                    <div class="row">
+                                        <div class="input-field col md-2" id="qrcodeCanvas"></div>
+                                        <div class="input-field col md-6">
+                                            <input id="inputSecretCode" type="text" class="activate" disabled>
+                                            <label class="active" for="inputSecretCode">Secret Code (for Authy)</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col md-4">
+                                            <input id="inputProfileVerifyCode" type="text" class="activate" 
+                                                placeholder="Enter a TOTP generated from your Authenticator app"
+                                                minlength="6" maxlength="6" required>
+                                            <label for="inputProfileVerifyCode">Verify TOTP Code</label>
+                                        </div>
+                                        <button type="submit" id="verifyMFAcode" class="btn btn-info">
+                                            Verify Code
+                                        </button>
+                                    </div>
+                                </div>
+                            
+                            </form>
+                        </div>
+                    </li>
+                    <li data-profile-section="password">
+                        <div class="collapsible-header"><i class="material-icons">lock_open</i>Password</div>
+                        <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tenant Config Info page -->
+        <div class="row config" id="tenantConfigContainer" hidden>
+            <div class="col-md-10 mr-auto ml-auto">
+                <div class="m-4">
+                    <h5>Tenant Configuration</h5>
+                </div>
+                <hr />
+                <ul class="collapsible popout" id="tenantConfigInfo" >
+                    <li data-profile-section="clouds" class="active admin">
+                        <div class="collapsible-header"><i class="material-icons">cloud</i>Clouds</div>
+                        <div class="collapsible-body">
+                            <div class="row">
+                                <div class="col col-md-6 offset-md-6">
+                                    <a href="#" id="editTenantConfigClouds" class="btn btn-secondary btn-small btn-flat">
+                                        Add new Cloud Connection
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <table id="tenantConfigCloudsTable" class="table table-responsive-md table-bordered table-hover">
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Add/Edit Cloud Connection Modal -->
+                        <div class="modal" id="editTenantConfigCloudsModal" style="width:fit-content; height:fit-content" tabindex="-1" role="dialog"> 
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editTenantConfigCloudsModalHeader">Add New Cloud Connection</h5>
+                                        <button class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="createCloudsForm">
+                                            <div class="row" id="editTenantConfigCloudsNote">
+                                                <span class="text-muted">Note: Updating the Account ID will override any existing cloud connection with same Account ID</span>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col-md-6">
+                                                    <label class="active" for="inputConnectionName">Connection Name</label>
+                                                    <input type="text" class="validate" id="inputConnectionName" name="inputConnectionName"
+                                                        placeholder="Connection name (e.g. Dev Account)" maxLength="50" data-length="50"
+                                                        required>
+                                                </div>
+                                                <div class="input-field col-md-3">
+                                                    <label class="active" for="inputTenantAccount">Your managed AWS account</label>
+                                                    <input type="text" class="validate" id="inputTenantAccount" min="000000000000"
+                                                        max="999999999999" maxLength="12" pattern="^\d{12}$" name="inputTenantAccount"
+                                                        placeholder="e.g. 123412341234" required>
+                                                    <span class="helper-text" data-error="12 digits exactly"></span>
+                                                </div>
+                                                <div class="col-md-3 switch">
+                                                    <label>
+                                                        AWS Public 
+                                                        <input type="checkbox" id="inputTenantAccountType">
+                                                        <span class="lever"></span>
+                                                        Gov Cloud
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="input-field col-md-6">
+                                                    <label class="active" for="inputExternalID">External ID</label>
+                                                    <input type="text" class="active" id="inputExternalID" name="inputExternalID" readonly>
+                                                </div>
+                                                <div class="input-field col-md-3">
+                                                    <label class="active" for="inputHostingAccount">Our hosting AWS account</label>
+                                                    <input type="text" class="active" id="inputHostingAccount" name="inputHostingAccount" 
+                                                    placeholder="12324234234234" readonly>
+                                                </div>
+                                                <div class="input-field col-md-12">
+                                                    <textarea class="form-control mb-2 mr-sm-2 text-monospace"
+                                                        style="font-family: monospace; height:80px" rows="4" id="inputRolePolicy"
+                                                        name="inputRolePolicy" readonly></textarea>
+                                                    <label class="active" for="inputRolePolicy">Role Policy
+                                                        <!-- <i class="fa fa-copy"></i> -->
+                                                    </label>
+                                                    <button id="setupCloudAccountAccess" type="button" class="btn btn-info btn-small">
+                                                        Setup Access Role using CloudFormation
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col-md-9">
+                                                    <label class="active" for="inputCrossAccountRoleARN">Role ARN from CloudFormation
+                                                    </label>
+                                                    <input type="text" class="validate" id="inputCrossAccountRoleARN"
+                                                        name="inputCrossAccountRoleARN"
+                                                        placeholder="e.g. arn:aws:iam::123412341234:role/CrossAccountRoleSetup-CrossAccountRole-ABCD123EF45"
+                                                        required>
+                                                    <span class="helper-text"
+                                                        data-error="enter valid Role ARN for your managed AWS Account"></span>
+                                                </div>
+                                                <div class="input-field col-md-3">
+                                                    <button id="testCloudAccountAccess" type="button" class="btn btn-info btn-small">
+                                                        Test Connection
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <button id="saveCloudConnection" type="submit" class="btn btn-primary btn-flat">
+                                                Save Cloud Connection
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <!-- <div class="modal-footer" hidden></div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li data-profile-section="subscription" class="admin">
+                        <div class="collapsible-header"><i class="material-icons">attach_money</i>Subscription</div>
+                        <div class="collapsible-body">
+                            <input type="hidden" id="hiddenTenantId" name="tenantIdentifier" value="" />
+                            <ul>
+                                <li>Member since: <span id="tenantSubscriptionCreatedAt"></span> </li>
+                                <li>Subscription status: <span id="tenantSubscriptionStatus"></span> </li>
+                                <li>Registration Type: <span id="tenantSubscriptionRegistration"></span> </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li data-profile-section="team" class="admin">
+                        <div class="collapsible-header">
+                            <i class="material-icons">people</i>Team
+                        </div> 
+                        <div class="collapsible-body">
+                            <div class="row">
+                                <div class="col col-md-4 offset-md-8">
+                                    <button id="inviteUser" class="btn btn-secondary btn-small btn-flat">
+                                        Invite new user
+                                    </button>
+                                </div>
+                                <div class="modal p-4" style="width:fit-content; height:fit-content" id="editTenantConfigTeamModal">
+                                    <div class="modal-dialog modal-lg" style="width: 900px">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editTenantConfigCloudsModalHeader">
+                                                    Let's get a new member added to the team...
+                                                </h5>
+                                                <button class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="inviteNewUserForm">
+                                                    <div class="row">
+                                                        <div class="input-field col-md-3">
+                                                            <label for="inputFirstName">First Name</label>
+                                                            <input type="text" class="validate" id="inputFirstName" name="inputFirstName" required>
+                                                        </div>
+                                                        <div class="input-field col-md-3">
+                                                            <label for="inputLastName">Last Name</label>
+                                                            <input type="text" class="validate" id="inputLastName" name="inputLastName" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="input-field col-md-3">
+                                                            <label for="inputEmail">Email</label>
+                                                            <input type="email" class="validate" id="inputEmail" name="inputEmail" required>
+                                                        </div>
+                                                        <div class="input-field col-md-3">
+                                                            <label for="inputEmailVerify">Verify Email</label>
+                                                            <input type="email" class="validate" id="inputEmailVerify" name="inputEmailVerify" required>
+                                                            <span class="helper-text" data-error="emails don't match"></span>
+                                                        </div>
+                                                        <div class="input-field col-md-3">
+                                                            <label for="inputPassword">Password</label>
+                                                            <input type="password" class="validate" id="inputPassword" name="inputPassword" required
+                                                                minlength="8" maxlength="20"
+                                                                pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$" value="">
+                                                            <span class="helper-text">8-20 characters long with uppercase, lowercase, numeric and special
+                                                                chars.</span>
+                                                        </div>
+                                                        <div class="input-field col-md-3">
+                                                            <label for="inputPasswordVerify">Verify Password</label>
+                                                            <input type="password" class="validate" id="inputPasswordVerify" name="inputPasswordVerify"
+                                                                required minlength="8" maxlength="20"
+                                                                pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$" value="">
+                                                            <span class="helper-text" data-error="passwords don't match"></span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <label for="inputNewUserChips">Tags for resource filters</label>
+                                                        <div id="chipsNewUserTags" class="chips col-md-9">
+                                                            <input id="inputNewUserChips" style="width:100% !important" value="" />
+                                                            <hidden id="hiddenAwsNewUserTags" name="inputNewUserChips" value="" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row" id="add-people-template-role">
+                                                        <div class="input-field col-md-8">
+                                                            <span>User Role</span>
+                                                            <div class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio" id="inputUserRoleUser" name="inputUserRole" class="custom-control-input"
+                                                                    value="User" checked>
+                                                                <label class="custom-control-label" for="inputUserRoleUser">User</label>
+                                                            </div>
+                                                            <div class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio" id="inputUserRoleAdmin" name="inputUserRole"
+                                                                    class="custom-control-input" value="Admin">
+                                                                <label class="custom-control-label" for="inputUserRoleAdmin">Administrator</label>
+                                                            </div>
+                                                            <div class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio" id="inputUserRoleReadOnly" name="inputUserRole"
+                                                                    class="custom-control-input" value="ReadOnly">
+                                                                <label class="custom-control-label" for="inputUserRoleReadOnly">Read-only</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <button type="submit" class="btn btn-primary">Add New User</button>
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <table id="tenantConfigUsersTable" class="table table-responsive-md table-bordered table-hover">
+
+                                </table>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Forgot password page
+        <div class="row unauthenticated" id="forgotPasswordInfo">
+            <div class="col-md-8 col-lg-6 mr-auto ml-auto">
+                <div class="card border-dark">
+                    <div class="card-header bg-primary text-white">
+                        Password
+                    </div>
+                    <div class="card-body">
+                        <form id="forgotPasswordForm">
+                            <div class="input-field">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input type="email" id="emailInputSignin" class="validate" required>
+                                <label for="emailInputSignin">Email</label>
+                                <span class="helper-text" data-error="email required"></span>
+                            </div>
+                            <div class="input-field">
+                                <div class="input-field" id="show_hide_password">
+                                    <i class="material-icons prefix">visibility</i>
+                                    <input type="password" id="apiKeyInputSignin" class="validate" required>
+                                    <label for="apiKeyInputSignin">Password</label>
+                                    <span class="helper-text" data-error="required"></span>
+                                </div>
+                            </div>
+                            <input class="btn btn-outline-primary" type="submit" value="Sign In">
+                        </form>
+                    </div>
+                    <div class="card-footer alert alert-danger auth-message" id="auth-message-error" hidden>
+                        An error occured when attempting to authenticate!
+                        Please retry again later, or contact your admin for assistance if the issue persists.
+                    </div>
+                </div>
+            </div>
+        </div> 
+-->
+
+        <br/>
+
+        <!-- Tabbed Grid -->
+        <!-- Tabbed Grid Headers-->
+        <ul class="nav nav-tabs nav-pills mb-3 authenticated" id="pills-tab" role="tablist" hidden>
+            <li class="nav-item">
+                <a class="nav-link active" id="pills-instances-tab" data-toggle="pill" href="#pills-instances" role="tab"
+                aria-controls="pills-instances" aria-selected="true">Instances</a>
+            </li>
+            <!-- <li class="nav-item">
+                <a class="nav-link" id="pills-s3Buckets-tab" data-toggle="pill" href="#pills-s3Buckets" role="tab"
+                aria-controls="pills-s3Buckets" aria-selected="false">S3 Buckets</a>
+            </li>
+            <li class="nav-item admin">
+                <a class="nav-link" id="pills-users-tab" data-toggle="pill" href="#pills-users" role="tab"
+                aria-controls="pills-users" aria-selected="false">Users</a>
+            </li> -->
+            <li class="nav-item admin">
+                <a class="nav-link" id="pills-access-tab" data-toggle="pill" href="#pills-access" role="tab"
+                aria-controls="pills-access" aria-selected="false">Access Rules</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-workspaces-tab" data-toggle="pill" href="#pills-workspaces" role="tab"
+                aria-controls="pills-workspaces" aria-selected="true">WorkSpaces</a>
+            </li>
+            <li class="nav-item admin">
+                <a class="nav-link" id="pills-workflowAdmin-tab" data-toggle="pill" href="#pills-workflowAdmin" role="tab"
+                aria-controls="pills-workflowAdmin" aria-selected="false">Resource Workflow Admin</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-workflowRequest-tab" data-toggle="pill" href="#pills-workflowRequest" role="tab"
+                aria-controls="pills-workflowRequest" aria-selected="false">Resource Workflow</a>
+            </li>
+        </ul>
+
+        <!-- Tabbed Grid Content -->
+        <div class="tab-content authenticated" id="pills-tabContent" hidden>
+            <div class="tab-pane fade show active" id="pills-instances" role="tabpanel"
+                aria-labelledby="pills-instances-tab">
+                <!-- Instances Info -->
+                <div class="row" id="instancesInfo">
+                    <div class="col-sm-12 mr-auto ml-auto">
+                        <div class="card border-dark">
+                            <div class="card-header bg-primary text-white">
+                                <div class="col-md-12">
+                                    Instance Details
+                                    <button id="refreshInstances" class="refresher right">
+                                        <i class="fas fa-sync" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <!-- <p class="card-text"> -->
+                                    <table id="instancesInfoTable" class="table table-responsive-md table-bordered table-hover">
+
+                                    </table>
+                                <!-- </p> -->
+                            </div>
+
+                            <!-- Console Image Viewer -->
+                            <div id="consoleImageModal" class="modal fade" style="width:fit-content; height:fit-content" tabindex="-1"
+                                role="dialog" aria-labelledby="consoleImageModalDialog" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Console output</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <img src="images/ajax_loader_gray_32.gif" alt="console-image" id="consoleImage">
+                                        <textarea id="consoleOutput"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    
+                    <!-- Add VPN Access Rule Modal -->
+                    <div class="modal p-1" style="width:fit-content; height:fit-content" id="remoteAccessModal">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Remote Access</h5>
+                                    <button class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <ul class="nav nav-tabs nav-pills nav-fill">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#pills-network-automation" 
+                                                data-toggle="pill" role="tab">Network Automation</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#pills-decrypt-pem" 
+                                                data-toggle="pill" role="tab">Decrypt PEM</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#pills-browser-connect" 
+                                                data-toggle="pill" role="tab">Browser RDP/SSH</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content authenticated" id="pills-remote-access-content">
+                                        <div class="tab-pane fade show active" id="pills-network-automation" role="tabpanel"
+                                            aria-labelledby="pills-network-tab">
+                                            <br />
+                                            <form id="networkAutomationForm">
+                                                <div class="container-fluid">
+                                                    <h6>Security Group | Whitelist IP</h6>
+                                                    <hr/>
+                                                    <div class="row">
+                                                        <div class="col-md-4 offset-md-1">
+                                                            <div class="input-field">
+                                                                <label class="active" for="newAddVpnAccessInstance">Instance:</label>
+                                                                <input type="text" id="newAddVpnAccessInstance" readonly>
+                                                            </div>
+                                                            <div class="input-field">
+                                                                <input type="text" id="newAddVpnAccessIPAddress" class="active form-control"
+                                                                    placeholder="e.g. 123.234.123.234" required autofocus>
+                                                                <label for="newAddVpnAccessIPAddress">Source IP Address to whitelist:</label>
+                                                                <span class="helper-text" data-error="required"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="input-field">
+                                                                <label class="active" for="newAddVpnAccessPlatform">Platform OS:</label>
+                                                                <input type="text" id="newAddVpnAccessPlatform" readonly>
+                                                            </div>
+                                                            <div class="input-field">
+                                                                <input type="number" id="newAddVpnAccessPort" class="validate" min="1" max="65535"
+                                                                    placeholder="TCP Port (e.g. 22 or 3389)" required>
+                                                                <label class="active" for="newAddVpnAccessPort">TCP Port Number (0 - 65535):</label>
+                                                                <span class="helper-text" data-error="required TCP port number (0 - 65535)"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <button type="button" id="addNewAddVpnAccessSubmit" class="btn btn-flat btn-small btn-primary">
+                                                                Add Whitelist Rule
+                                                            </button>
+                                                            <button type="button" id="removeVpnAccessSubmit" class="btn btn-flat btn-small btn-secondary">
+                                                                Revoke My Rules
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                                <br />
+                                                <div class="container-fluid">
+                                                    <h6>Dynamic Subnet Routing
+                                                        <span class="right text-small" id="subnetRoutingInfo"></span>
+                                                    </h6>
+                                                    <!-- <div class="row" > -->
+                                                        <!-- <div class="col-md-2 input-field">
+                                                            <label class="active" for="subnetRoutingVpcId">VPC</label>
+                                                            <input type="text" id="subnetRoutingVpcId" readonly />
+                                                        </div>
+                                                        <div class="col-md-4 input-field">
+                                                            <label class="active" for="subnetRoutingSubnetId">Subnet</label>
+                                                            <input type="text" id="subnetRoutingSubnetId" readonly/>
+                                                        </div>
+                                                        <div class="col-md-3 input-field">
+                                                            <label class="active" for="subnetRoutingRouteTableId">Route Table Id</label>
+                                                            <input type="text" id="subnetRoutingRouteTableId" readonly/>
+                                                        </div>
+                                                        <div class="col-md-3 input-field">
+                                                            <label class="active" for="subnetRoutingRouteTableIsMain">Main Route Table</label>
+                                                            <input type="text" id="subnetRoutingRouteTableIsMain" readonly/>
+                                                        </div>  -->
+                                                        <label class="alert text-warning bg-dark" id="subnetRoutingUserNotice">
+                                                        </label>
+                                                    <!-- </div> -->
+                                                </div>
+                                                <!-- 
+                                                    <label class="alert text-info bg-light" id="subnetRoutingLeaseNotice">
+                                                    </label> 
+                                                -->
+                                                <div class="container-fluid" id="subnetRoutingOptionsContainer">
+                                                    <div class="row admin">
+                                                        <div class="col-md-12">
+                                                            <div class="switch">
+                                                                <label>
+                                                                    <input type="hidden" id="subnetRoutingWorkflowId" name="subnet-routing-workflow-id" value=""/>
+                                                                    <input type="checkbox" id="enableSubnetRouting" name="enable-subnet-routing" />
+                                                                    <span class="lever"></span>
+                                                                    Enable Dynamic Subnet Routing
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row admin">
+                                                        <div class="col-md-12">
+                                                            <div class="switch">
+                                                                <label>
+                                                                    <input type="checkbox" id="approveSubnetLease" name="approve-subnet-routing" />
+                                                                    <span class="lever"></span>
+                                                                    Require approvals before leasing
+                                                                </label>
+                                                                <div class="ml-4" id="subnetLeaseApproversTable">
+                                                                </div>
+                                                                <input type="hidden" id="subnetRoutingAuthorizedApprovers" name="subnet-routing-authorized-approvers" value=""/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <button type="button" id="saveRoutingConfiguration" class="btn btn-flat btn-small btn-primary">
+                                                                Save configuration
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr/>
+                                                <div class="container-fluid" id="subnetRoutingLeaseOptionsContainer">
+                                                    <div class="row ml-4">
+                                                        <div class="col-md-12">
+                                                            <label class="text-small">
+                                                                <label>Make EC2 Subnet</label>
+                                                                <label class="my-0 input-field inline">
+                                                                    <select id="subnetState" name="subnet-state"
+                                                                        style="height:2.0rem; margin-bottom:0!important; width: 100px;">
+                                                                        <option value="0" disabled selected>.   .   .   .   .   .   .   . </option>
+                                                                        <option value="public">Public</option>
+                                                                        <option value="private">Private</option>
+                                                                    </select>
+                                                                </label>
+                                                                <label class="my-4" >for</label>
+                                                                <label>
+                                                                    <i class="my-0 input-field inline">
+                                                                        <input type="number" min="1" max="60" value="1" id="subnetleaseDuration"
+                                                                            name="subnet-lease-duration"
+                                                                            style="height:2.6rem; margin-bottom:0!important; max-width: 50px;" />
+                                                                    </i>
+                                                                </label>
+                                                                <label class="my-0 input-field inline">
+                                                                    <select id="subnetleaseDurationUnit" name="subnet-lease-duration-unit"
+                                                                        style="height:2.0rem; margin-bottom:0!important; width: 100px;">
+                                                                        <option value="0" disabled selected>.   .   .   .   .   .   .   . </option>
+                                                                        <option value="mi">minute(s)</option>
+                                                                        <option value="hh">hour(s)</option>
+                                                                    </select>
+                                                                </label>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row ml-4">
+                                                        <div class="col-md-4 offset-md-1">
+                                                            <div class="input-field">
+                                                                <input type="text" id="subnetRoutingAddVpnAccessIPAddress" class="active form-control" 
+                                                                placeholder="e.g. 123.234.123.234" required>
+                                                                <label for="subnetRoutingAddVpnAccessIPAddress">Source IP Address to whitelist:</label>
+                                                                <span class="helper-text" data-error="required"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="input-field">
+                                                                <input type="number" id="subnetRoutingAddVpnAccessPort" class="validate" min="1" max="65535"
+                                                                    placeholder="TCP Port (e.g. 22 or 3389)" required>
+                                                                <label class="active" for="subnetRoutingAddVpnAccessPort">TCP Port Number (0 - 65535):</label>
+                                                                <span class="helper-text" data-error="required TCP port number (0 - 65535)"></span>
+                                                            </div>
+                                                        </div>
+                                                        <!-- <div class="col-md-12">
+                                                            <span id="subnetRoutingCurrentLeaseNotice" class="alert bg-light text-info">
+                                                                <time id="subnetRoutingCurrentLeaseExpiration" class="timeago" datetime=""></time>
+                                                            </span>
+                                                        </div> -->
+                                                    </div>
+                                                    <button type="button" id="requestAccessSubmit" class="btn btn-flat btn-small btn-primary">
+                                                        Request Access
+                                                    </button>
+                                                </div>
+                                            </form>
+                                            <div class="right">
+                                                <button type="button" class="btn btn-small btn-flat btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade show" id="pills-decrypt-pem" role="tabpanel" 
+                                            aria-labelledby="pills-decrypt-pem-tab">
+                                            <h6>Coming soon!</h6>
+                                            <div style="height: 300px; width: 300px;"></div>
+                                        </div>
+                                        <div class="tab-pane fade show" id="pills-browser-connect" role="tabpanel" 
+                                            aria-labelledby="pills-browser-connect-tab">
+                                            <!-- Connect Modal -->
+                                            <!-- 
+                                                <div class="modal" id="connectInstanceModal">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content" style="box-shadow: -7px 8px 10px 2px #E0E0E0;">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Connect to instance</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body" id="connectInstanceModalForm"> 
+                                            -->
+                                                            <form id="connectInstanceModalForm">
+                                                                <div class="row input-field">
+                                                                    <div class="col md-3">
+                                                                        <input type="text" id="connectInstanceId" class="disabled" readonly>
+                                                                        <label for="connectInstanceId">Instance ID</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row input-field">
+                                                                    <div class="col md-1">
+                                                                        <input type="text" id="connectInstancePublicIpV4" class="disabled" readonly>
+                                                                        <label for="connectInstancePublicIpV4">IP Address</label>
+                                                                    </div>
+                                                                    <div class="col md-1">
+                                                                        <input type="text" id="connectInstancePlatform" class="disabled" readonly>
+                                                                        <label for="connectInstancePlatform">Platform OS</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row input-field">
+                                                                    <div class="col md-3">
+                                                                        <input type="text" id="connectInstancePublicDNS" class="disabled" readonly>
+                                                                        <label for="connectInstancePublicDNS">Public DNS</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row input-field">
+                                                                    <div class="col md-3">
+                                                                        <input type="text" id="connectDomain" class="validate" value="" maxlength="30"
+                                                                            placeholder="Windows Domain (optional)">
+                                                                        <label for="connectDomain">Domain</label>
+                                                                    </div>
+                                                                    <div class="col md-3">
+                                                                        <input type="text" id="connectUsername" class="validate" value="Administrator"
+                                                                            maxlength="30" required>
+                                                                        <label class="active" for="connectUsername">User name</label>
+                                                                        <span class="helper-text" data-error="required"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row input-field">
+                                                                    <div class="col md-3">
+                                                                        <input type="password" id="connectPassword" class="active form-control" maxlength="30"
+                                                                            value="" required>
+                                                                        <label class="active" for="connectPassword">Password</label>
+                                                                        <span class="helper-text" data-error="required"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    <button type="submit" id="connectInstanceSubmit" class="btn btn-primary">
+                                                                        Connect to instance!
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        <!-- 
+                                                        </div>
+                                                        <div class="modal-footer text-muted text-warning" style="height:auto!important; text-align: left">
+                                                            <ul>
+                                                                <li> * Notes / known issues *</li>
+                                                                <li>we use secure connections (//TODO:SSL) and never ever store or share your passwords!</li>
+                                                                <li>Requires you to turn off NLA (network level authentication) on your Windows Server (Remote Desktop Settings)
+                                                                </li>
+                                                                <li>Instance should be internet-facing</li>
+                                                                <li>Our RDP gateway should have already been added to allow inbound traffic to the instance on port 3389</li>
+                                                                <li>Copy/Paste does not work between local and remote clipboards, sorry!</li>
+                                                            </ul>
+                                                        </div> 
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            -->
+                                                <div height="50px" id="connectInstanceToolbar" hidden>
+                                                    <div class="progress" style="max-height:5px" id="connectInstanceProgress">
+                                                        <div class="indeterminate"></div>
+                                                    </div>
+                                                    <button class="btn btn-danger" id="disconnectInstance" disabled>Disconnect</button>
+                                                    <span id="connectInstanceFrames" class="text-muted"></span>
+                                                </div>
+                                                <canvas id="mstscCanvas" style="border: 1px thick solid black"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="modal-footer" hidden></div> -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-s3Buckets" role="tabpanel" aria-labelledby="pills-s3Buckets-tab">
+                <!-- s3Buckets Info -->
+                <div class="row" id="s3BucketsInfo">
+                    <div class="col-sm-12 mr-auto ml-auto">
+                        <div class="card border-dark col-sm-12">
+                            <div class="card-header bg-primary text-white row">
+                                <div class="col-sm-5">
+                                    S3 Buckets
+                                    <button id="refreshs3Buckets" class="refresher right">
+                                        <i class="fas fa-sync" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <table id="s3BucketsInfoTable" class="table table-responsive-md table-bordered table-hover">
+                                    </table>
+                                </p>
+                            </div>
+                            <!-- <div class="card-footer alert alert-secondary s3Bucket-message" id="s3Bucket-action-message">
+                            </div>
+                            <div class="card-footer alert alert-danger s3Bucket-message" id="s3Bucket-action-error">
+                                An error occured when attempting to execute the requested action for s3Bucket <span id="s3Bucket-action-id"></span>!<br />
+                                Please retry again later, or contact your admin for assistance if the issue persists.
+                                <br />
+                                <span id="s3Bucket-action-error-detail"></span>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-users" role="tabpanel" aria-labelledby="pills-users-tab">
+                <!-- Users Info -->
+                <div class="row" id="usersInfo">
+                    <div class="col-sm-12 mr-auto ml-auto">
+                        <div class="card border-dark col-sm-12">
+                            <div class="card-header bg-primary text-white row">
+                                <div class="col-sm-10">
+                                    User Details
+                                    <button id="refreshUsers" class="refresher right">
+                                        <i class="fas fa-sync" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button id="launchAddNewUserModal" class="btn btn-primary text-right">
+                                        Add New User
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <table id="usersInfoTable" class="table table-responsive-md table-bordered table-hover">
+
+                                    </table>
+                                </p>
+                            </div>
+                            <div class="card-footer alert alert-secondary user-message" id="user-action-message">
+                            </div>
+                            <div class="card-footer alert alert-danger user-message" id="user-action-error">
+                                An error occured when attempting to change the status for user <span id="user-action-id"></span>!<br />
+                                Please retry again later, or contact your admin for assistance if the issue persists.
+                                <br />
+                                <span id="user-action-error-detail"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <!-- Add New User Modal -->
+                <div class="modal p-4" style="width:fit-content; height:fit-content" id="addNewUserModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Add New User</h5>
+                                <button class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="addNewUserForm">
+                                    <input type="text" id="newUsername" class="form-control form-control-sm"
+                                        placeholder="User Name" required autofocus>
+                                    <input type="text" id="newApiKey" class="form-control form-control-sm" 
+                                        placeholder="API Key" minlength="20" required>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" id="addNewUserSubmit" class="btn btn-primary">
+                                            Add New User
+                                        </button>
+                                </form>
+                            </div>
+                            <div class="modal-footer" id="addnewuser-message"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="tab-pane fade" id="pills-access" role="tabpanel" aria-labelledby="pills-access-tab">
+                <!-- VPN Access Info -->
+                <div class="row" id="vpnAccessInfo">
+                    <div class="col-sm-12 mr-auto ml-auto">
+                        <div class="card border-dark">
+                            <div class="card-header bg-primary text-white">
+                                VPN Access Details
+                                <button id="refreshVpnAccess" class="refresher right">
+                                    <i class="fas fa-sync" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <table id="vpnAccessInfoTable" class="table table-responsive-md table-bordered table-hover">
+
+                                    </table>
+                                </p>
+                            </div>
+                            <div class="card-footer alert alert-secondary vpnaccess-message"
+                                id="vpnaccess-action-message">
+                            </div>
+                            <div class="card-footer alert alert-danger vpnaccess-message" id="vpnaccess-action-error">
+                                An error occured when attempting to fetch or change the status for access rule <span
+                                    id="vpnaccess-action-id"></span>!<br />
+                                Please retry again later, or contact your admin for assistance if the issue persists.
+                                <br />
+                                <span id="vpnaccess-action-error-detail"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-workspaces" role="tabpanel" aria-labelledby="pills-workspaces-tab">
+                <!-- Workspaces Info -->
+                <div class="row" id="workspacesInfo">
+                    <div class="col-md-12 mr-auto ml-auto">
+                        <div class="card border-dark col-sm-12">
+                            <div class="card-header bg-primary text-white row">
+                                <div class="col-md-12">
+                                        WorkSpaces Details
+                                    <button id="refreshWorkspaces" class="refresher right">
+                                        <i class="fas fa-sync" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="workspacesInfoFilters" class="row text-small" hidden>
+                                    <div class="col-md-3 offset-md-0">
+                                        <label for="selectWorkspaceDirectory">Directory:</label>
+                                        <select multiple id="filterWorkspaceDirectory" required>
+                                        </select>
+                                    </div>
+                                    <!-- <div class="col-md-1">
+                                        <span class="text"> - OR - </span>
+                                    </div> -->
+                                    <div class="col-md-3">
+                                        <label for="selectWorkspaceBundle">User:</label>
+                                        <select multiple id="filterWorkspaceUser" required>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="selectWorkspaceBundle">Bundle:</label>
+                                        <select multiple id="filterWorkspaceBundle" required>
+                                        </select>
+                                    </div>
+                                    <!-- <div class="input-field col-md-2">
+                                        <button id="filterWorkspaces" type="button" class="btn btn-secondary btn-small">
+                                            Filter
+                                        </button>
+                                    </div> -->
+                                    <!-- <div class="col-md-2 switch">
+                                        <label>
+                                            AND
+                                            <input type="checkbox" id="filterWorkspaceOption">
+                                            <span class="lever"></span>
+                                            OR
+                                        </label>
+                                    </div> -->
+                                </div>
+                                <div id="workspacesInfoTable" style="width: 100%">
+
+                                </div>
+                                <div id="workspacesInfoPager" style="width: 100%;" hidden>                                    
+                                    <ul class="pagination right">
+                                        <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                                        <li class="active"><a href="#!">1</a></li>
+                                        <li class="waves-effect"><a href="#!">2</a></li>
+                                        <li class="waves-effect"><a href="#!">3</a></li>
+                                        <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-workflowAdmin" role="tabpanel" aria-labelledby="pills-workflowAdmin-tab">
+                <!-- Workflow Admin Info -->
+                <div class="row" id="workflowAdminInfo">
+                    <div class="col-md-12 mr-auto ml-auto">
+                        <div class="card border-dark">
+                            <div class="card-header bg-primary text-white">
+                                Workflow Admin
+                            </div>
+                            <div class="card-body">
+                                <div class="row">  
+                                    <div class="col-md-8 mr-auto ml-auto">
+                                        <p class="card-text">Setup Workflows for AWS Workspace & EC2 instance provisioning:</p>
+                                        <hr/>
+                                        <!-- Create Workflow form -->
+                                        <form id="createWorkflowForm">
+                                            <input type="hidden" id="inputWorkflowId" value="" />
+                                            <input type="hidden" id="inputWorkflowStatus" value="" />
+                                            <div class="row">
+                                                <div class="input-field col-md-6">
+                                                    <label for="inputWorkflowName">Workflow Name</label>
+                                                    <input type="text" class="validate" id="inputWorkflowName" name="workflowName" 
+                                                        placeholder="Enter workflow name" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="inputResourceType">Resource Type</label>
+                                                    <select id="inputResourceType" name="resourceType" required>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!-- <hr/> -->
+                                            <div class="row">
+                                                <ul class="collapsible col-md-12" style="border: none; box-shadow: none">
+                                                    <li class="workflow-params params-workspaces">
+                                                        <div class="collapsible-header">
+                                                            <i class="material-icons">desktop_windows</i>Authorized Bundles
+                                                            <span class="badge badge-secondary badge-pill text-light text-small" id="params-counter-bundles">0 bundles selected</span>
+                                                        </div>
+                                                        <div class="collapsible-body">
+                                                            <div class="row">
+                                                                <div class="input-field col-md-8">
+                                                                    <label class="active" for="inputworkspacesBundleList">Bundles List (CSV)</label>
+                                                                    <input type="text" class="validate" id="inputworkspacesBundleList" name="inputworkspacesBundleList"
+                                                                        placeholder="Enter Bundle IDs to authorize (separated by ',')" maxLength="300" data-length="300" required>
+                                                                </div>
+                                                                <div class="input-field col-md-4">
+                                                                    <button id="resolveWorkspacesList" type="button" class="btn btn-secondary btn-small">
+                                                                        Lookup
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div id="workspacesParamsBundlesTable"></div>
+                                                        </div>
+                                                    </li>
+                                                    <li class="workflow-params params-workspaces">
+                                                        <div class="collapsible-header">
+                                                            <i class="material-icons">power_settings_new</i>Running Mode
+                                                            <span class="badge badge-white badge-pill text-white text-small" id="params-counter-runningmode">.</span>
+                                                        </div>
+                                                        <div class="collapsible-body" id="workspacesParamsRunningMode">
+                                                            <div>
+                                                                <ul id="paramsRunningModeOptionList">
+                                                                    <li class="mb-4">
+                                                                        <label>
+                                                                            <input type="radio" name="paramsRunningModeOptions" value="runningmode-alwayson" />
+                                                                            <span>Always On</span>
+                                                                        </label>
+                                                                        <br/>
+                                                                        <span class="text-small text-muted">Billed monthly. Instant access to an always running WorkSpace.</span>
+                                                                    </li>
+                                                                    <li></li>
+                                                                    <li style="margin-bottom:0!important">
+                                                                        <label>
+                                                                            <input type="radio" name="paramsRunningModeOptions" value="runningmode-autostop" checked />
+                                                                            <span style="margin-bottom:0!important">Auto-stop in 
+                                                                                <i class="my-0 input-field inline">
+                                                                                    <input type="number" min="1" max="48" value="1"
+                                                                                        id="runningModeAutoStopHours" name="runningmode-autostop-hours"
+                                                                                        style="height:1.5rem; margin-bottom:0!important" />
+                                                                                </i> hour(s)
+                                                                            </span>
+                                                                        </label>
+                                                                        <div class="text-small text-muted">
+                                                                            <span>Billed by the hour. WorkSpaces start automatically when you login, and stop when no longer being used.</span>
+                                                                            <!-- <br/>
+                                                                            <span class="mt-4">
+                                                                                <strong>Note :</strong> When possible AutoStop will snapshot the state of the desktop to the root volume of the WorkSpace. 
+                                                                                When a user next logs into their WorkSpace it is resumed and all open documents and running programs return to their previous state. 
+                                                                                To further enhance the security of your WorkSpaces we recommend you encrypt all storage volumes.
+                                                                            </span> -->
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li class="workflow-params params-ec2">
+                                                        <div class="collapsible-header">
+                                                            <i class="material-icons">settings_ethernet</i>Authorized Networks
+                                                            <span class="badge badge-secondary badge-pill text-light text-small" id="params-counter-subnets">0 subnets in 0 VPCs selected</span>
+                                                        </div>
+                                                        <div class="collapsible-body">
+                                                            <span class="text-muted">VPCs</span>
+                                                            <div class="" id="ec2ParamsVpcsTable"></div>
+                                                            <hr/>
+                                                            <span class="text-muted">Subnets <small> - (Please select VPCs first).</small></span>
+                                                            <div class="" id="ec2ParamsSubnetsTable"></div>
+                                                            <!-- <hr/>
+                                                            <div class="switch">
+                                                                <label>
+                                                                    Auto-assign Elastic IP Address?
+                                                                    <input type="checkbox" id="autoAssignIpAddress">
+                                                                    <span class="lever"></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="switch">
+                                                                <label>
+                                                                    Utilize VPN Firewall Automation?
+                                                                    <input type="checkbox">
+                                                                    <span class="lever"></span>
+                                                                </label>
+                                                            </div> -->
+                                                        </div>
+                                                    </li>
+                                                    <li class="workflow-params params-ec2">
+                                                        <div class="collapsible-header">
+                                                            <i class="material-icons">network_locked</i>Authorized Security Groups
+                                                            <span class="badge badge-secondary badge-pill text-white text-small" id="params-counter-securitygroups">0 SGs in 0 VPCs selected</span>
+                                                        </div>
+                                                        <div class="collapsible-body">
+                                                            <span class="text-muted">Available Security Groups <small> - (Please select VPCs first).</small></span>
+                                                            <div id="ec2ParamsSecurityGroupsTable"></div>
+                                                        </div>
+                                                    </li>
+                                                    <li class="workflow-params params-ec2">
+                                                        <div class="collapsible-header">
+                                                            <i class="material-icons">desktop_windows</i>Authorized Instance Types
+                                                            <span class="badge badge-secondary badge-pill text-white text-small" id="params-counter-instancetypes">0 selected</span>
+                                                        </div>
+                                                        <div class="collapsible-body" id="ec2ParamsInstanceTypesTable">
+                                                            <template id="ec2ParamsInstanceTypes-Autocomplete">
+                                                                <div class="row">
+                                                                    <div class="input-field col s12">
+                                                                        <i class="material-icons prefix">textsms</i>
+                                                                        <input type="text" id="autocomplete-input" class="autocomplete">
+                                                                        <label for="autocomplete-input">Autocomplete</label>
+                                                                    </div>
+                                                                </div>
+                                                            </template>
+                                                        </div>
+                                                    </li>
+                                                    <li class="workflow-params params-ec2">
+                                                        <div class="collapsible-header">
+                                                            <i class="material-icons">add_a_photo</i>Authorized Images
+                                                            <span class="badge badge-secondary badge-pill text-light text-small" id="params-counter-images">0 selected</span>
+                                                        </div>
+                                                        <div class="collapsible-body">
+                                                            <div class="row">
+                                                                <div class="input-field col-md-8">
+                                                                    <label class="active" for="inputEc2ParamsImageList">AMI List (CSV)</label>
+                                                                    <input type="text" class="validate" id="inputEc2ParamsImageList" name="inputEc2ParamsImageList"
+                                                                        placeholder="Enter AMI IDs to authorize (separated by ',')" maxLength="300" data-length="300" required>
+                                                                </div>
+                                                                <div class="input-field col-md-4">
+                                                                    <button id="resolveEc2ImageList" type="button" class="btn btn-secondary btn-small">
+                                                                        Lookup
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div id="ec2ParamsImagesTable"></div>
+                                                        </div>
+                                                    </li>
+                                                    <li class="workflow-params params-ec2">
+                                                        <div class="collapsible-header">
+                                                            <i class="material-icons">vpn_key</i>Authorized Key Pairs (optional)
+                                                            <span class="badge badge-secondary badge-pill text-light text-small" id="params-counter-keypairs">0 selected</span>
+                                                        </div>
+                                                        <div class="collapsible-body" id="ec2ParamsKeyPairsTable"></div>
+                                                    </li>
+                                                    <li class="workflow-params params-all">
+                                                        <div class="collapsible-header">
+                                                            <i class="material-icons">contact_mail</i>Approvers
+                                                            <span class="badge badge-secondary badge-pill text-light text-small" id="params-counter-approvers">0 selected</span>
+                                                        </div>
+                                                        <div class="collapsible-body">
+                                                            <div id="paramsApproversTable"></div>
+                                                            <!-- <hr/>
+                                                            <div>
+                                                                <span>Requests from this workflow will be considered approved when : </span><br />
+                                                                <ul id="paramsApproversOptionsList">
+                                                                    <li>
+                                                                        <label>
+                                                                            <input type="radio" name="paramsApproversOptions" value="approve-all" checked />
+                                                                            <span>All approvers have approved</span>
+                                                                        </label>
+                                                                    </li>
+                                                                    <li style="margin-bottom:0!important">
+                                                                        <label>
+                                                                            <input type="radio" name="paramsApproversOptions" value="approve-minx" />
+                                                                            <span style="margin-bottom:0!important">At least
+                                                                                <i class="my-0 input-field inline"><input type="number" min="1" max="5" value="1" maxlength="1"
+                                                                                        id="minApproversCount" name="minApproversCount"
+                                                                                        style="height:1.5rem; margin-bottom:0!important" /></i>
+                                                                                approver(s) have approved
+                                                                            </span>
+                                                                        </label>
+                                                                    </li>
+                                                                    <li>
+                                                                        <label>
+                                                                            <input type="radio" name="paramsApproversOptions" value="reject-single" />
+                                                                            <span>Any single rejection will reject the request</span>
+                                                                        </label>
+                                                                    </li>
+                                                                </ul>
+                                                            </div> -->
+                                                        </div>
+                                                    </li>
+                                                    <li class="workflow-params params-all">
+                                                        <div class="collapsible-header">
+                                                            <i class="material-icons">local_offer</i>Tags
+                                                            <span class="badge badge-secondary badge-pill text-light text-small" id="params-counter-tags">(coming soon!)</span>
+                                                        </div>
+                                                        <div class="collapsible-body" id="paramsTagsTable">
+                                                            <div class="switch">
+                                                                <label>
+                                                                    <input type="checkbox" id="copyUserTags" name="copyUserTags" checked disabled>
+                                                                    <span class="lever"></span>
+                                                                    Apply requester's tags to resource
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li class="workflow-params params-ec2">
+                                                        <div class="collapsible-header">
+                                                            <i class="material-icons">timer</i>Lease
+                                                            <span class="badge badge-secondary badge-pill text-light text-small" id="params-counter-tags">(coming soon!)</span>
+                                                        </div>
+                                                        <div class="collapsible-body" id="ec2ParamsLeaseOptionsTable">
+                                                            <div class="switch">
+                                                                <label>
+                                                                    <input type="checkbox" id="applyLease" name="applyLease" checked />
+                                                                    <span class="lever"></span>
+                                                                    Automatically 
+                                                                    <label class="my-0 input-field inline">
+                                                                        <select id="leaseAction" name="lease-action"
+                                                                            style="height:2.0rem; margin-bottom:0!important; width: 100px;">
+                                                                            <option value="0" disabled selected>.   .   .   .   .   .   .   . </option>
+                                                                            <option value="shut-down">shut-down</option>
+                                                                            <option value="terminate">terminate</option>
+                                                                        </select>
+                                                                    </label>
+                                                                    instances
+                                                                    <label>
+                                                                        <!-- <select id="leaseSked" name="ec2-lease-sked"
+                                                                            style="height:2.0rem; margin-bottom:0!important; width: 40px;">
+                                                                            <option value="after" selected>after</option>
+                                                                            <option value="at">at</option>
+                                                                        </select> -->
+                                                                        
+                                                                        <i class="my-0 input-field inline">
+                                                                            <input type="number" min="1" max="60" value="1"
+                                                                                id="leaseDuration" name="lease-duration"
+                                                                                style="height:2.6rem; margin-bottom:0!important; max-width: 50px;" />
+                                                                        </i> 
+                                                                    </label>
+                                                                    <label class="my-0 input-field inline">
+                                                                        <select id="leaseDurationUnit" name="lease-duration-unit"
+                                                                            style="height:2.0rem; margin-bottom:0!important; width: 100px;">
+                                                                            <option value="0" disabled selected>.   .   .   .   .   .   .   . </option>
+                                                                            <option value="mi">minute(s)</option>
+                                                                            <option value="hh">hour(s)</option>
+                                                                            <option value="dd">day(s)</option>
+                                                                            <option value="wk">week(s)</option>
+                                                                            <option value="mo">month(s)</option>
+                                                                        </select>
+                                                                    </label>
+                                                                </label>
+                                                            </div>       
+                                                        </div>
+                                                    </li>
+                                                    <li class="workflow-params params-ec2">
+                                                        <div class="collapsible-header">
+                                                            <i class="material-icons">storage</i>Storage
+                                                            <span class="badge badge-secondary badge-pill text-light text-small" id="params-counter-storage">0 selected</span>
+                                                        </div>
+                                                        <div class="collapsible-body">
+                                                            <div class="row mb-0">
+                                                                <div class="col-md-12 switch">
+                                                                    <label>
+                                                                        <input type="checkbox" id="deleteTermination" name="delete-on-terminate" checked />
+                                                                        <span class="lever"></span>
+                                                                        <label>
+                                                                            Delete all volumes on instance termination
+                                                                        </label>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-md-12 switch">
+                                                                    <label>
+                                                                        <input disabled type="checkbox" id="encryptVolumes" name="encrypt-volumes" />
+                                                                        <span class="lever"></span>
+                                                                        <label>
+                                                                            Encrypt all volumes using KMS key: 
+                                                                            <i class="my-0 input-field inline">
+                                                                                <select id="encryptVolumeKeys" name="encrypt-volume-keys"
+                                                                                    style="height:2.6rem; margin-bottom:0!important; max-width: 50px;">
+                                                                                    <option value="key1">Key 1 (dummy)</option>
+                                                                                    <option value="key2">Key 2 (dummy)</option>
+                                                                                </select>
+                                                                            </i> 
+                                                                        </label>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-md-12 switch">
+                                                                    <label>
+                                                                        <input type="checkbox" id="allowVolumes" name="allow-volumes" />
+                                                                        <span class="lever"></span>
+                                                                        <label>
+                                                                            Allow
+                                                                            <i class="my-0 input-field inline text-small">
+                                                                                <input type="number" min="1" max="5" value="1"
+                                                                                    id="maxVolumeCount" name="max-volume-count"
+                                                                                    style="height:2.6rem; margin-bottom:0!important; max-width: 50px;" />
+                                                                            </i> 
+                                                                            additional volume(s)
+                                                                        </label>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="ml-5" id="ec2ParamsStorageTable" style="display: none">
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li class="workflow-params params-all">
+                                                        <div class="collapsible-header">
+                                                            <i class="material-icons">cloud_upload</i>Deployment options
+                                                            <span class="badge badge-secondary badge-pill text-light text-small" id="params-counter-tags">(coming soon!)</span>
+                                                        </div>
+                                                        <div class="collapsible-body" id="paramsDeploymentOptionsTable"></div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <!-- <hr/> -->
+                                            <div class="workflow-params params-all">
+                                                <button type="reset" class="btn btn-secondary" id="resetWorkflowForm">Reset</button>
+                                                <button type="submit" class="btn btn-primary" id="saveWorkflow">Save Workflow</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-4 mr-auto ml-auto" style="border-left: 1px solid grey">
+                                        <span class="card-text">Current Workflows</span>
+                                        <button id="refreshWorkflows" class="refresher right">
+                                            <i class="fas fa-sync" aria-hidden="true"></i>
+                                        </button>
+                                        <hr />
+                                        <div id="workflowsInfoTable"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer alert alert-secondary" hidden>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-workflowRequest" role="tabpanel" aria-labelledby="pills-workflowRequest-tab">
+                <!-- Workflow Request Info -->
+                <div class="row" id="workflowRequestInfo">
+                    <div class="col-md-12 mr-auto ml-auto">
+                        <div class="card border-dark">
+                            <div class="card-header bg-primary text-white">
+                                Workflow Request
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-8 mr-auto ml-auto">
+                                        <p class="card-text">Fill out the form to request a resource::</p>
+                                        <hr/>
+                                        <!-- Request Workflow form -->
+                                        <form id="requestWorkflowForm">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <label for="selectSavedWorkflows">Select Workflow:</label>
+                                                    <select id="selectSavedWorkflows" name="savedWorkflows" required>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3 workflow-request-ec2 workflow-request-workspaces" hidden>
+                                                    <label for="selectWorkflowResourceType">Resource Type:</label>
+                                                    <input type="text" disabled id="selectWorkflowResourceType"/>
+                                                </div>
+                                                <div class="col-md-4 workflow-request-ec2 workflow-request-workspaces" hidden>
+                                                    <a href="#" class="text-info" id="checkWorkflowRequestPricing">Show Estimated Cost</a>
+                                                        <!-- <button type="button" class="mx-2 btn btn-info" id="checkWorkflowRequestPricing">What does this cost?
+                                                                <span class="badge badge-light" id="pricingBadge"></span>
+                                                            </button> -->
+                                                    <!-- <label for="selectWorkflowPricing">Estimated Cost:</label> -->
+                                                    <input type="text" disabled id="selectWorkflowPricing"/>
+                                                </div>
+                                            </div>
+                                            <div class="row workflow-request-ec2" hidden>
+                                                <div class="row col-md-12">
+                                                    <div class="col-md-5">
+                                                        <label for="selectWorkflowInstanceType">Select an Instance Type to use: </label>
+                                                        <select id="selectWorkflowInstanceType" name="requestInstanceType" required>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <label for="selectWorkflowImage">Select an AMI to use:</label>
+                                                        <select id="selectWorkflowImage" name="requestImage" required>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row col-md-12">
+                                                    <div class="col-md-5">
+                                                        <label for="selectWorkflowVPC">Select a VPC to deploy to:</label>
+                                                        <select id="selectWorkflowVPC" name="requestVPC" required>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <label for="selectWorkflowSubnet">Select a Subnet to deploy to: </label>
+                                                        <select id="selectWorkflowSubnet" name="requestSubnet" required>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row col-md-12">
+                                                    <div class="col-md-5">
+                                                            <label for="selectWorkflowKeyPair">Select a Key Pair (optional): </label>
+                                                            <select id="selectWorkflowKeyPair" name="requestKeyPair">
+                                                            </select>
+                                                        </div>
+                                                    <div class="col-md-7">
+                                                        <!-- <label>Attach Authorized Security Groups:</label>
+                                                        <div id="workflowSecurityGroupsTable"></div> -->
+                                                        <label for="selectWorkflowSecurityGroup">Attach Authorized Security Groups:</label>
+                                                        <select multiple id="selectWorkflowSecurityGroup" name="requestSecurityGroups" required>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row col-md-12" hidden>
+                                                    <span class="text-small text-info bg-light" id="leaseOptionsMessage">Instance set to automatically (shut-down| terminate) in (x hrs)</span>
+                                                    <input type="hidden" id="selectLeaseOptions" name="leaseOptions" value="" />
+                                                </div>
+                                                <div class="row col-md-12">
+                                                    <div class="col-md-9">
+                                                        <span class="text-small">EBS Volumes:</span>
+                                                        <!-- <br/> -->
+                                                        <span class="text-small text-info bg-light" id="storageOptionsMessage">0 additional volumes allowed</span>
+                                                        <input type="hidden" id="selectStorageOptions" name="storageOptions" value="" />
+                                                        <input type="hidden" id="selectVolumeTypes" name="volumeTypes" value="" />
+                                                        <input type="hidden" id="addedVolumesCount" name="addedVolumesCount" value="0" />
+                                                        <hr />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button type="button" class="btn btn-flat btn-secondary" id="addVolume">
+                                                            <!-- <i class="material-icons prefix">add_box</i> -->Add Volume
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-md-12 mx-1" id="additionalVolumesTable" style="border: none">
+                                                            
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row workflow-request-workspaces" hidden>
+                                                <div class="col-md-12">
+                                                    <label class="alert text-info bg-light">
+                                                        NOTE: Your administrator has configured the WorkSpaces to <span class="text-small" id="workspacesOptionsMessage"></span>
+                                                    </label> 
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="selectWorkflowBundle">Select a Bundle to use:</label>
+                                                    <select id="selectWorkflowBundle" name="requestBundle" required>
+                                                    </select>
+                                                    <input type="hidden" id="selectWorkspaceOptions" name="workspaceOptions" value=""/>
+                                                </div>
+                                            </div>
+                                            <div class="input-field col-md-12 workflow-request-ec2 workflow-request-workspaces" hidden>
+                                                <textarea id="workflowJustification" class="materialize-textarea" data-length="80"></textarea>
+                                                <label for="workflowJustification">Enter Justification for this request:</label>
+                                                <input type="hidden" id="selectApprovers" name="workflowApprovers" value=""/>
+                                                <input type="hidden" id="selectApprovalOptions" name="workflowApprovalOptions" value=""/>
+                                            </div>
+                                            <!-- <hr/> -->
+                                            <div class="row" id="workflowButtons" hidden>
+                                                <button type="reset" class="mx-2 btn btn-secondary" id="resetWorkflowRequestForm">Reset</button>
+                                                <button type="button" class="mx-2 btn btn-primary" id="submitWorkflowRequest">Submit Request!</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-4 mr-auto ml-auto" style="border-left: 1px solid grey">
+                                        <span>Your recent workflow requests</span>
+                                        <button id="refreshWorkflowRequests" class="refresher right">
+                                            <i class="fas fa-sync" aria-hidden="true"></i>
+                                        </button>
+                                        <hr/>
+                                        <div id="workflowRequestsTable"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer alert alert-secondary" hidden>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Show a loading div before AJAX call, and hide it after. -->
+        <!-- <div id="loadDiv" class="row">
+            <div class="col-sm-12">
+                <img src="images/ajax_loader_gray_32.gif">
+            </div>
+        </div> -->
+        <!-- <div class="preloader-wrapper small active" id="loadDiv" hidden>
+            <div class="spinner-layer spinner-green-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+
+        <!-- MaterializeCSS Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        
+        <!-- Bootstrap JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+        <!-- QR Code generator -->
+        <script src="js/qrcode.js"></script>
+
+        <!-- Cognito Scripts -->
+        <script src="js/aws-cognito-sdk.min.js"></script>
+        <script src="js/amazon-cognito-identity.min.js"></script>
+        <!-- Import custom modules -->
+        <script type="module" src="js/clientConfig.js"></script>
+        <script type="module" src="js/index.js"></script>
+        <!-- <script type="module" src="js/mstsc/socket.io/socket.io.js"></script> -->
+        <!-- MSTSC connector -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.7/socket.io.min.js"
+            integrity="sha256-Ks6n4alycJ5MRj6rwF7KZna5iV6EHiH0uPFPlhe7yyQ=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="js/mstsc/mstsc.js"></script>
+        <script type="text/javascript" src="js/mstsc/keyboard.js"></script>
+        <script type="text/javascript" src="js/mstsc/rle.js"></script>
+        <script type="text/javascript" src="js/mstsc/client.js"></script>
+        <script type="text/javascript" src="js/mstsc/canvas.js"></script>
+
+        <!-- noUISlider -->
+        <!-- <script type="text/javascript" src="js/nouislider/distribute/nouislider.min.js"></script>
+        <script type="text/javascript" src="js/nouislider/wnumb-1.1.0/wNumb.js"></script> -->
+        <script type="text/javascript" src="js/nouislider/material-css-custom-nouislider/nouislider.min.js"></script>
+        <script type="text/javascript" src="js/nouislider/wnumb-1.1.0/wNumb.js"></script>
+
+        <!-- time ago -->
+        <script type="text/javascript" src="js/timeago/jquery.timeago.js"></script>
+        <!-- <script type="text/javascript" src="js/timeago.js/dist/timeago.min.js"></script> -->
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,652 @@
+[
+    {
+        "instanceType": "t3a.xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "16 GiB",
+        "vcpu": "4",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "m5d.24xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "384 GiB",
+        "vcpu": "96",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "r5d.4xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "128 GiB",
+        "vcpu": "16"
+    },
+    {
+        "instanceType": "m5d.8xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "128 GiB",
+        "vcpu": "32",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "x1e.8xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "976 GiB",
+        "vcpu": "32",
+        "clockSpeed": "2.3 GHz"
+    },
+    {
+        "instanceType": "r5a.large",
+        "instanceFamily": "Memory optimized",
+        "memory": "16 GiB",
+        "vcpu": "2",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "i3.2xlarge",
+        "instanceFamily": "Storage optimized",
+        "memory": "61 GiB",
+        "vcpu": "8",
+        "clockSpeed": "2.3 GHz"
+    },
+    {
+        "instanceType": "m5d.16xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "256 GiB",
+        "vcpu": "64",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "c5.2xlarge",
+        "instanceFamily": "Compute optimized",
+        "memory": "16 GiB",
+        "vcpu": "8",
+        "clockSpeed": "3.0 Ghz"
+    },
+    {
+        "instanceType": "c5.18xlarge",
+        "instanceFamily": "Compute optimized",
+        "memory": "144 GiB",
+        "vcpu": "72",
+        "clockSpeed": "3.0 Ghz"
+    },
+    {
+        "instanceType": "c5d.18xlarge",
+        "instanceFamily": "Compute optimized",
+        "memory": "144 GiB",
+        "vcpu": "72",
+        "clockSpeed": "3.0 Ghz"
+    },
+    {
+        "instanceType": "m5.2xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "32 GiB",
+        "vcpu": "8",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "t3a.small",
+        "instanceFamily": "General purpose",
+        "memory": "2 GiB",
+        "vcpu": "2",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "t3.small",
+        "instanceFamily": "General purpose",
+        "memory": "2 GiB",
+        "vcpu": "2"
+    },
+    {
+        "instanceType": "m5.8xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "128 GiB",
+        "vcpu": "32",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "m5a.large",
+        "instanceFamily": "General purpose",
+        "memory": "8 GiB",
+        "vcpu": "2",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "t3a.medium",
+        "instanceFamily": "General purpose",
+        "memory": "4 GiB",
+        "vcpu": "2",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "i3.4xlarge",
+        "instanceFamily": "Storage optimized",
+        "memory": "122 GiB",
+        "vcpu": "16",
+        "clockSpeed": "2.3 GHz"
+    },
+    {
+        "instanceType": "c5d.xlarge",
+        "instanceFamily": "Compute optimized",
+        "memory": "8 GiB",
+        "vcpu": "4",
+        "clockSpeed": "3.0 Ghz"
+    },
+    {
+        "instanceType": "m5a.24xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "384 GiB",
+        "vcpu": "96",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "r5d.2xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "64 GiB",
+        "vcpu": "8"
+    },
+    {
+        "instanceType": "r5a.4xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "128 GiB",
+        "vcpu": "16",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "c5n.xlarge",
+        "instanceFamily": "Compute optimized",
+        "memory": "10.5 GiB",
+        "vcpu": "4",
+        "clockSpeed": "3.0 Ghz"
+    },
+    {
+        "instanceType": "c5d.large",
+        "instanceFamily": "Compute optimized",
+        "memory": "4 GiB",
+        "vcpu": "2",
+        "clockSpeed": "3.0 Ghz"
+    },
+    {
+        "instanceType": "r5d.12xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "384 GiB",
+        "vcpu": "48"
+    },
+    {
+        "instanceType": "c5d.4xlarge",
+        "instanceFamily": "Compute optimized",
+        "memory": "32 GiB",
+        "vcpu": "16",
+        "clockSpeed": "3.0 Ghz"
+    },
+    {
+        "instanceType": "t3.medium",
+        "instanceFamily": "General purpose",
+        "memory": "4 GiB",
+        "vcpu": "2"
+    },
+    {
+        "instanceType": "c5d.2xlarge",
+        "instanceFamily": "Compute optimized",
+        "memory": "16 GiB",
+        "vcpu": "8",
+        "clockSpeed": "3.0 Ghz"
+    },
+    {
+        "instanceType": "r5a.8xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "256 GiB",
+        "vcpu": "32",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "t3a.large",
+        "instanceFamily": "General purpose",
+        "memory": "8 GiB",
+        "vcpu": "2",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "c5d.9xlarge",
+        "instanceFamily": "Compute optimized",
+        "memory": "72 GiB",
+        "vcpu": "36",
+        "clockSpeed": "3.0 Ghz"
+    },
+    {
+        "instanceType": "i3.8xlarge",
+        "instanceFamily": "Storage optimized",
+        "memory": "244 GiB",
+        "vcpu": "32",
+        "clockSpeed": "2.3 GHz"
+    },
+    {
+        "instanceType": "c5.9xlarge",
+        "instanceFamily": "Compute optimized",
+        "memory": "72 GiB",
+        "vcpu": "36",
+        "clockSpeed": "3.0 Ghz"
+    },
+    {
+        "instanceType": "x1e.16xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "1,952 GiB",
+        "vcpu": "64",
+        "clockSpeed": "2.3 GHz"
+    },
+    {
+        "instanceType": "t3.large",
+        "instanceFamily": "General purpose",
+        "memory": "8 GiB",
+        "vcpu": "2"
+    },
+    {
+        "instanceType": "c5.4xlarge",
+        "instanceFamily": "Compute optimized",
+        "memory": "32 GiB",
+        "vcpu": "16",
+        "clockSpeed": "3.0 Ghz"
+    },
+    {
+        "instanceType": "m5a.2xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "32 GiB",
+        "vcpu": "8",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "c5n.18xlarge",
+        "instanceFamily": "Compute optimized",
+        "memory": "192 GiB",
+        "vcpu": "72",
+        "clockSpeed": "3.0 Ghz"
+    },
+    {
+        "instanceType": "r5.24xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "768 GiB",
+        "vcpu": "96"
+    },
+    {
+        "instanceType": "r5.xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "32 GiB",
+        "vcpu": "4"
+    },
+    {
+        "instanceType": "m5.12xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "192 GiB",
+        "vcpu": "48",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "m5.24xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "384 GiB",
+        "vcpu": "96",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "m5d.12xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "192 GiB",
+        "vcpu": "48",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "c5.large",
+        "instanceFamily": "Compute optimized",
+        "memory": "4 GiB",
+        "vcpu": "2",
+        "clockSpeed": "3.0 Ghz"
+    },
+    {
+        "instanceType": "m5a.8xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "128 GiB",
+        "vcpu": "32",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "r5.12xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "384 GiB",
+        "vcpu": "48"
+    },
+    {
+        "instanceType": "t3.micro",
+        "instanceFamily": "General purpose",
+        "memory": "1 GiB",
+        "vcpu": "2"
+    },
+    {
+        "instanceType": "r5.16xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "512 GiB",
+        "vcpu": "64"
+    },
+    {
+        "instanceType": "r5.4xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "128 GiB",
+        "vcpu": "16"
+    },
+    {
+        "instanceType": "r5a.12xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "384 GiB",
+        "vcpu": "48",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "m5d.large",
+        "instanceFamily": "General purpose",
+        "memory": "8 GiB",
+        "vcpu": "2",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "m5.xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "16 GiB",
+        "vcpu": "4",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "r5.large",
+        "instanceFamily": "Memory optimized",
+        "memory": "16 GiB",
+        "vcpu": "2",
+        "clockSpeed": "3.1 GHz"
+    },
+    {
+        "instanceType": "t3.2xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "32 GiB",
+        "vcpu": "8"
+    },
+    {
+        "instanceType": "m5a.16xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "256 GiB",
+        "vcpu": "64",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "m5d.4xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "64 GiB",
+        "vcpu": "16",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "m5.4xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "64 GiB",
+        "vcpu": "16",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "t3.xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "16 GiB",
+        "vcpu": "4"
+    },
+    {
+        "instanceType": "c5.xlarge",
+        "instanceFamily": "Compute optimized",
+        "memory": "8 GiB",
+        "vcpu": "4",
+        "clockSpeed": "3.0 Ghz"
+    },
+    {
+        "instanceType": "c5n.large",
+        "instanceFamily": "Compute optimized",
+        "memory": "5.25 GiB",
+        "vcpu": "2",
+        "clockSpeed": "3.0 Ghz"
+    },
+    {
+        "instanceType": "m5.large",
+        "instanceFamily": "General purpose",
+        "memory": "8 GiB",
+        "vcpu": "2",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "x1e.32xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "3,904 GiB",
+        "vcpu": "128",
+        "clockSpeed": "2.3 GHz"
+    },
+    {
+        "instanceType": "x1e.4xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "488 GiB",
+        "vcpu": "16",
+        "clockSpeed": "2.3 GHz"
+    },
+    {
+        "instanceType": "r5.8xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "256 GiB",
+        "vcpu": "32"
+    },
+    {
+        "instanceType": "i3.large",
+        "instanceFamily": "Storage optimized",
+        "memory": "15.25 GiB",
+        "vcpu": "2",
+        "clockSpeed": "2.3 GHz"
+    },
+    {
+        "instanceType": "m5d.2xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "32 GiB",
+        "vcpu": "8",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "m5.metal",
+        "instanceFamily": "General purpose",
+        "memory": "384 GiB",
+        "vcpu": "96",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "r5a.xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "32 GiB",
+        "vcpu": "4",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "r5d.xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "32 GiB",
+        "vcpu": "4"
+    },
+    {
+        "instanceType": "m5d.metal",
+        "instanceFamily": "General purpose",
+        "memory": "384 GiB",
+        "vcpu": "96",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "r5a.2xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "64 GiB",
+        "vcpu": "8",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "t3.nano",
+        "instanceFamily": "General purpose",
+        "memory": "0.5 GiB",
+        "vcpu": "2"
+    },
+    {
+        "instanceType": "t3a.nano",
+        "instanceFamily": "General purpose",
+        "memory": "0.5 GiB",
+        "vcpu": "2",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "x1.32xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "1,952 GiB",
+        "vcpu": "128",
+        "clockSpeed": "2.3 GHz"
+    },
+    {
+        "instanceType": "r5a.24xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "768 GiB",
+        "vcpu": "96",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "t3a.2xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "32 GiB",
+        "vcpu": "8",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "x1e.xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "122 GiB",
+        "vcpu": "4",
+        "clockSpeed": "2.3 GHz"
+    },
+    {
+        "instanceType": "r5d.16xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "512 GiB",
+        "vcpu": "64"
+    },
+    {
+        "instanceType": "x1e.2xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "244 GiB",
+        "vcpu": "8",
+        "clockSpeed": "2.3 GHz"
+    },
+    {
+        "instanceType": "t3a.micro",
+        "instanceFamily": "General purpose",
+        "memory": "1 GiB",
+        "vcpu": "2",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "i3.xlarge",
+        "instanceFamily": "Storage optimized",
+        "memory": "30.5 GiB",
+        "vcpu": "4",
+        "clockSpeed": "2.3 GHz"
+    },
+    {
+        "instanceType": "c5n.2xlarge",
+        "instanceFamily": "Compute optimized",
+        "memory": "21 GiB",
+        "vcpu": "8",
+        "clockSpeed": "3.0 Ghz"
+    },
+    {
+        "instanceType": "r5d.large",
+        "instanceFamily": "Memory optimized",
+        "memory": "16 GiB",
+        "vcpu": "2"
+    },
+    {
+        "instanceType": "m5a.xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "16 GiB",
+        "vcpu": "4",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "r5d.8xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "256 GiB",
+        "vcpu": "32"
+    },
+    {
+        "instanceType": "x1.16xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "976 GiB",
+        "vcpu": "64",
+        "clockSpeed": "2.3 GHz"
+    },
+    {
+        "instanceType": "m5a.4xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "64 GiB",
+        "vcpu": "16",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "i3.16xlarge",
+        "instanceFamily": "Storage optimized",
+        "memory": "488 GiB",
+        "vcpu": "64",
+        "clockSpeed": "2.3 GHz"
+    },
+    {
+        "instanceType": "r5.2xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "64 GiB",
+        "vcpu": "8"
+    },
+    {
+        "instanceType": "m5.16xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "256 GiB",
+        "vcpu": "64",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "m5a.12xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "192 GiB",
+        "vcpu": "48",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "r5a.16xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "512 GiB",
+        "vcpu": "64",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "m5d.xlarge",
+        "instanceFamily": "General purpose",
+        "memory": "16 GiB",
+        "vcpu": "4",
+        "clockSpeed": "2.5 GHz"
+    },
+    {
+        "instanceType": "c5n.4xlarge",
+        "instanceFamily": "Compute optimized",
+        "memory": "42 GiB",
+        "vcpu": "16",
+        "clockSpeed": "3.0 Ghz"
+    },
+    {
+        "instanceType": "r5d.24xlarge",
+        "instanceFamily": "Memory optimized",
+        "memory": "768 GiB",
+        "vcpu": "96"
+    },
+    {
+        "instanceType": "c5n.9xlarge",
+        "instanceFamily": "Compute optimized",
+        "memory": "96 GiB",
+        "vcpu": "36",
+        "clockSpeed": "3.0 Ghz"
+    }
+]

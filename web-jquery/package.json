@@ -1,0 +1,24 @@
+{
+  "name": "exostack-web",
+  "version": "1.0.0",
+  "description": "Exostack website",
+  "main": "index.js",
+  "scripts": {
+    "webdeploy": "serverless client deploy",
+    "uncache": "aws cloudfront create-invalidation --profile <PROFILE> --distribution-id <CLOUDFRONT_DISTRIBUTIONID> --paths /*",
+    "deploy": "npm run webdeploy && npm run uncache"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serverless-finch": "^2.3.2"
+  },
+  "dependencies": {
+    "amazon-cognito-identity-js": "^3.0.10",
+    "materialize-css": "^1.0.0",
+    "mdl-stepper": "^1.1.6",
+    "nouislider": "^14.0.2",
+    "timeago": "^1.6.7"
+  }
+}

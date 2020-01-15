@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>exostack - Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="css/smart_wizard.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/smart_wizard_theme_arrows.min.css"> -->
+
+    <!-- MaterializeCSS Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Materialize Stepper -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/materialize-stepper@3.0.1/dist/css/mstepper.min.css"> -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue_grey-indigo.min.css" />
+    <link rel="stylesheet" href="css/stepper.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- FontAwesome -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" /> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Rubik:700" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/theme.css" rel="stylesheet">
+   
+</head>
+
+<body>
+    <div class="container theme-showcase" role="main">
+
+        <!-- Top Main Navbar -->
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
+            <a class="navbar-brand nav-brand-logo" href="index.html">
+                <span>
+                    <strong>&lt;</strong>
+                    &nbsp;<i class="fas fa-layer-group"></i>&nbsp;
+                    <strong>&gt;</strong>
+                    &nbsp;exostack&nbsp;
+                    <!-- <span class="material-icons">cloud</span> -->
+                </span>
+            </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a href="index.html" class="nav-link">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- bottom footer -->
+        <nav class="navbar navbar-expand-sm fixed-bottom navbar-light bg-light p-1" style="height:20px; z-index:0">
+            <span class="navbar-text">
+                &copy;
+                <script type="text/javascript">document.write(new Date().getFullYear());</script> exostack.com
+            </span>
+        </nav>
+
+        <!-- Registration Option Cards -->
+        <div id="registerCards" class="card-deck align-items-center text-center">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-header align-center">Register as</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 shadow-lg" style="border-right: thin solid lightgrey;">
+                    <div class="card">
+                        <h5 class="card-header bg-primary text-white">Individual Account</h5>
+                        <div class="card-body">
+                            <p class="card-text">Manage your personal cloud services.</p>
+                            <button id="buttonRegisterIndividual" class="btn btn-primary">Go !</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 shadow-lg">
+                    <div class="card">
+                        <h5 class="card-header bg-primary text-white">Company Account</h5>
+                        <div class="card-body">
+                            <p class="card-text">Manage multiple cloud accounts across teams.</p>
+                            <button id="buttonRegisterCompany" class="btn btn-primary">Go !</a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="col-sm-12 shadow-lg">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text align-center">Or register using your Social Accounts <br /> (coming
+                                soon!)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Show a loading div before AJAX call, and hide it after. -->
+        <div id="loadDiv" class="progress" hidden>
+                <div class="indeterminate"></div>
+            </div>
+        <!-- 
+        <div id="loadDiv" class="row" hidden>
+            <div class="col-sm-12">
+                <img src="images/ajax_loader_gray_32.gif">
+            </div>
+        </div>
+         -->
+
+        <div>
+            <ul id="stepper-individual" class="mdl-stepper  mdl-stepper--horizontal mdl-stepper--linear"
+                style="min-width:100%; min-height: 870px" hidden>
+                <li class="mdl-step" data-template="add-people-template">
+                    <span class="mdl-step__label">
+                        <span class="mdl-step__title">
+                            <span class="mdl-step__title-text">Register</span>
+                            <span class="mdl-step__title-message">Set up profile</span>
+                        </span>
+                    </span>
+                    <div class="mdl-step__content p-2 z-depth-3">
+                        Add People
+                    </div>
+                    <div class="mdl-step__actions">
+                        <button id="continuePeopleCreated_Ind"
+                            class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised"
+                            data-stepper-next>
+                            Continue
+                        </button>
+                        <button class="mdl-button mdl-js-button mdl-js-ripple-effect" data-stepper-cancel>
+                            Cancel
+                        </button>
+                    </div>
+                </li>
+                <li class="mdl-step" data-template="add-clouds-template">
+                    <span class="mdl-step__label">
+                        <span class="mdl-step__title">
+                            <span class="mdl-step__title-text">Add Clouds</span>
+                            <span class="mdl-step__title-message">Connect to AWS</span>
+                        </span>
+                    </span>
+                    <div class="mdl-step__content p-2 z-depth-3">
+                        Add Clouds
+                    </div>
+                    <div class="mdl-step__actions">
+                        <button id="continueCloudsCreated_Ind"
+                            class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised"
+                            data-stepper-next>
+                            Continue
+                        </button>
+                        <button class="mdl-button mdl-js-button mdl-js-ripple-effect" data-stepper-cancel>
+                            Cancel
+                        </button>
+                        <!-- <button class="mdl-button mdl-js-button mdl-js-ripple-effect" data-stepper-back>
+                            Back
+                        </button> -->
+                    </div>
+                </li>
+                <li class="mdl-step" data-template="add-done-template">
+                    <span class="mdl-step__label">
+                        <span class="mdl-step__title">
+                            <span class="mdl-step__title-text">Done</span>
+                            <span class="mdl-step__title-message">Get going!</span>
+                        </span>
+                    </span>
+                    <div class="mdl-step__content ">
+                        <h5 class="text-center text-success">Congrats! You're all set up!</h5>
+                        <div class="mx-auto" style="width: 200px; height: 50px">
+                            <button type="button" class="getStarted btn btn-secondary">Get Started</button>
+                        </div>
+                    </div>
+                    <div class="mdl-step__actions">
+                    </div>
+                </li>
+            </ul>
+
+            <ul id="stepper-company" class="mdl-stepper mdl-stepper--horizontal mdl-stepper--linear"`
+                style="min-width:100%; min-height: 850px" hidden>
+                <li class="mdl-step is-active" data-template="add-company-template">
+                    <span class="mdl-step__label">
+                        <span class="mdl-step__title">
+                            <span class="mdl-step__title-text">Add Company</span>
+                            <span class="mdl-step__title-message">Setup company profile</span>
+                        </span>
+                    </span>
+                    <div class="mdl-step__content p-2 z-depth-3">
+                        Add Company
+                    </div>
+                    <div class="mdl-step__actions">
+                        <button id="continueCompanyCreated"
+                            class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised"
+                            data-stepper-next>
+                            Continue
+                        </button>
+                        <button class="mdl-button mdl-js-button mdl-js-ripple-effect" data-stepper-cancel>
+                            Cancel
+                        </button>
+                    </div>
+                </li>
+                <li class="mdl-step" data-template="add-people-template">
+                    <span class="mdl-step__label">
+                        <span class="mdl-step__title">
+                            <span class="mdl-step__title-text">Add People</span>
+                            <span class="mdl-step__title-message">Setup your team</span>
+                        </span>
+                    </span>
+                    <div class="mdl-step__content p-2 z-depth-3">
+                        Add People
+                    </div>
+                    <div class="mdl-step__actions">
+                        <button  id="continuePeopleCreated"
+                            class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised"
+                            data-stepper-next>
+                            Continue
+                        </button>
+                        <button class="mdl-button mdl-js-button mdl-js-ripple-effect" data-stepper-cancel>
+                            Cancel
+                        </button>
+                    </div>
+                </li>
+                <li class="mdl-step" data-template="add-clouds-template">
+                    <span class="mdl-step__label">
+                        <span class="mdl-step__title">
+                            <span class="mdl-step__title-text">Add Clouds</span>
+                            <span class="mdl-step__title-message">Connect to AWS</span>
+                        </span>
+                    </span>
+                    <div class="mdl-step__content p-2 z-depth-3">
+                        Add Clouds
+                    </div>
+                    <div class="mdl-step__actions">
+                        <button id="continueCloudsCreated"
+                            class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised"
+                            data-stepper-next>
+                            Continue
+                        </button>
+                        <button class="mdl-button mdl-js-button mdl-js-ripple-effect" data-stepper-cancel>
+                            Cancel
+                        </button>
+                        <!-- <button class="mdl-button mdl-js-button mdl-js-ripple-effect" data-stepper-back>
+                            Back
+                        </button> -->
+                    </div>
+                </li>
+                <li class="mdl-step" data-template="add-done-template">
+                    <span class="mdl-step__label">
+                        <span class="mdl-step__title">
+                            <span class="mdl-step__title-text">Done</span>
+                            <span class="mdl-step__title-message">Get going!</span>
+                        </span>
+                    </span>
+                    <div class="mdl-step__content ">
+                        <h5 class="text-center text-success">Congrats! You're all set up!</h5>
+                        <div class="mx-auto" style="width: 200px; height: 50px">
+                            <button type="button" class="getStarted btn btn-secondary">Get Started</button>
+                        </div>
+                    </div>
+                    <div class="mdl-step__actions">
+                    </div>
+                </li>
+            </ul>
+            
+            <script src="https://www.google.com/recaptcha/api.js?render=6LdbMp4UAAAAAM2cpg5lC6K0Wngkus2_mhe3W0BQ"></script>
+            <script>
+            grecaptcha.ready(function() {
+                grecaptcha.execute('6LdbMp4UAAAAAM2cpg5lC6K0Wngkus2_mhe3W0BQ', {action: 'homepage'}).then(function(token) {
+                //TODO ...
+                });
+            });
+            </script>
+        </div>
+
+        <template id="add-company-template">
+            <div class="px-5 m-2">
+                <p class="lead">
+                    <h5>Great...Let's create a profile for your company to get started!</h5>
+                </p>
+                <hr />
+                <form id="createCompanyForm">
+                    <div class="row">
+                        <div class="input-field col-md-6">
+                            <label class="active" for="inputCompany">Name of Company</label>
+                            <input type="text" class="validate" id="inputCompany" name="companyName" value=""
+                                required>
+                        </div>
+                        <!-- </div>
+                    <div class="row"> -->
+                        <div class="col-md-6">
+                            <label for="inputCompanySize">Company Size</label>
+                            <select id="inputCompanySize" name="companySize" required>
+                                <option>1-50</option>
+                                <option>51-250</option>
+                                <option>250+</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col-md-6">
+                            <label class="active" for="inputWebsite">Website</label>
+                            <input type="url" pattern="https?://.+" class="validate" id="inputWebsite" name="companyWebsite" value="http://"
+                                placeholder="http://wwww.yourwebsite.com" required>
+                        </div>
+                        <div class="input-field col-md-6">
+                            <label class="active" for="inputAddress">Street Address</label>
+                            <input type="text" class="validate" id="inputAddress" name="companyAddress" value="" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col-md-6">
+                            <label class="active" for="inputCity">City</label>
+                            <input type="text" class="validate" id="inputCity" name="companyCity" value=""
+                                required>
+                        </div>
+                        <div class="input-field col-md-4">
+                            <label class="active" for="inputState">State</label>
+                            <input type="text" class="validate" id="inputState" name="companyState" value="" required>
+                        </div>
+                        <div class="input-field col-md-2">
+                            <label class="active" for="inputZip">Zip</label>
+                            <input type="text" class="validate" id="inputZip" name="companyZip" value="" required>
+                        </div>
+                    </div>
+                    <div class="input-field align-items-center">
+                        <div class="form-check">
+                            <label for="inputAgreeTerms">
+                                <input type="checkbox" id="inputAgreeTerms" required>
+                                <span>I agree to the <a target="_blank" href="#" onclick="return false;">Terms &amp; Conditions</a> of
+                                    the Service</span>
+                            </label>
+                        </div>
+                    </div>
+                    <input type="hidden" name="registrationType" value="company" />
+                    <input type="hidden" name="tenantId" id="inputTenantId" value="" />
+                    <button type="submit" class="btn btn-primary">Create Company</button>
+                </form>
+            </div>
+        </template>
+
+        <template id="add-people-template">
+            <div class="px-5 m-2">
+                <p class="lead">
+                    <h5 id="add-people-template-lead"></h5>
+                </p>
+                <hr/>
+                <form id="createUsersForm">
+                    <div class="row">
+                        <div class="input-field col-md-3">
+                            <label for="inputFirstName">First Name</label>
+                            <input type="text" class="validate" id="inputFirstName" name="inputFirstName" required>
+                        </div>
+
+                        <div class="input-field col-md-3">
+                            <label for="inputLastName">Last Name</label>
+                            <input type="text" class="validate" id="inputLastName" name="inputLastName" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col-md-3">
+                            <label for="inputEmail">Email</label>
+                            <input type="email" class="validate" id="inputEmail" name="inputEmail" required >
+                        </div>
+                        <div class="input-field col-md-3">
+                            <label for="inputEmailVerify">Verify Email</label>
+                            <input type="email" class="validate" id="inputEmailVerify" name="inputEmailVerify" required >
+                            <span class="helper-text" data-error="emails don't match"></span>
+                        </div>
+                        <!-- </div>
+
+                    <div class="row"> -->
+                        <div class="input-field col-md-3">
+                            <label for="inputPassword">Password</label>
+                            <input type="password" class="validate" id="inputPassword" name="inputPassword" 
+                            required minlength="8" maxlength="20" 
+                            pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$"
+                            value="">
+                            <span class="helper-text">8-20 characters long with uppercase, lowercase, numeric and special chars.</span>
+                        </div>
+                        <div class="input-field col-md-3">
+                            <label for="inputPasswordVerify">Verify Password</label>
+                            <input type="password" class="validate" id="inputPasswordVerify" name="inputPasswordVerify" 
+                            required minlength="8" maxlength="20" 
+                            pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$"
+                            value="">
+                            <span class="helper-text" data-error="passwords don't match"></span>
+                        </div>
+                        <!-- <div class="input-field col-md-8">
+                            <small class="text-muted">
+                                Must be 8-20 characters long and include uppercase, lowercase, numeric and special
+                                characters.
+                            </small>
+                        </div> -->
+                    </div>
+
+                    <div class="row">
+                        <label for="inputUserChips">Tags for resource filters</label>
+                        <div id="chipsUserTags" class="chips col-md-9">
+                            <input id="inputUserChips" style="width:100% !important" value="" />
+                                <!-- class="validate" 
+                                    pattern="[A-Za-z0-9+\-._:/]+[ ]*[=]{1}[ ]*[A-Za-z0-9+\-._:/]+"> -->
+                            <hidden id="hiddenAwsUserTags" name="inputUserTags" value="" />
+                            <!-- <span class="helper-text" data-error="max 4 tag pairs in format (TagName = Value), name & value length under 20 chars"></span> -->
+                        </div>
+                    </div>
+
+                    <div class="row" id="add-people-template-role">
+                        <div class="input-field col-md-6">
+                            <span>User Role</span>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="inputUserRoleUser" name="inputUserRole"
+                                    class="custom-control-input" value="User" checked>
+                                <label class="custom-control-label" for="inputUserRoleUser">User</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="inputUserRoleAdmin" name="inputUserRole"
+                                    class="custom-control-input" value="Admin">
+                                <label class="custom-control-label" for="inputUserRoleAdmin">Administrator</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="inputUserRoleReadOnly" name="inputUserRole"
+                                    class="custom-control-input" value="ReadOnly">
+                                <label class="custom-control-label" for="inputUserRoleReadOnly">Read-only</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Add New User</button>
+                    <hr/>
+
+                    <div class="row col-md-12" hidden>
+                        <h5>User Accounts</h5>
+                        <table class="table table-sm" id="userAccountList">
+                            <caption class="sr-only">User Accounts</caption>
+                            <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>Name</th>
+                                    <th>Role</th>
+                                    <th>Tags</th>
+                                </tr>
+                            </thead>
+                        
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </template>
+
+        <template id="add-clouds-template">
+            <div class="px-5 m-2">
+                <p class="lead">
+                    <h5>Sweet! Now let's get you connected to AWS!</h5>
+                    <small class="text-muted">
+                        Refer to:
+                        <a class="text-muted"
+                            href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html">How
+                            to Use an External ID</a>
+                        &
+                        <a class="text-muted"
+                            href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_common-scenarios_third-party.html">Providing
+                            Access to AWS Accounts Owned by Third Parties</a>
+                    </small>
+                </p>
+                <hr/>
+                <form id="createCloudsForm">
+                    <div class="row">
+                        <div class="input-field col-md-6">
+                            <label class="active" for="inputConnectionName">Connection Name</label>
+                            <input type="text" class="validate" id="inputConnectionName"
+                                name="inputConnectionName" placeholder="Connection name (e.g. Dev Account)" 
+                                maxLength="50" data-length="50" required>
+                        </div>
+                        <div class="input-field col-md-3">
+                            <label class="active" for="inputTenantAccount">Your managed AWS account</label>
+                            <input type="text" class="validate" id="inputTenantAccount"
+                                min="000000000000" max="999999999999" maxLength="12" pattern="^\d{12}$"
+                                name="inputTenantAccount" placeholder="e.g. 123412341234" required>
+                            <span class="helper-text" data-error="12 digits exactly"></span>
+                        </div>
+                        <div class="col-md-3 switch">
+                            <label>
+                                AWS Public 
+                                <input type="checkbox" id="inputTenantAccountType">
+                                <span class="lever"></span>
+                                Gov Cloud
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                    <!-- </div>
+                    <div class="row"> -->
+                        <div class="input-field col-md-6">
+                            <label class="active" for="inputExternalID">External ID</label>
+                            <input type="text" class="active disabled" id="inputExternalID" name="inputExternalID" readonly>
+                        </div>
+                        <div class="input-field col-md-3">
+                            <label class="active" for="inputHostingAccount">Our hosting AWS account</label>
+                            <input type="text" class="active" id="inputHostingAccount"
+                                name="inputHostingAccount" placeholder="12324234234234" readonly>
+                        </div>
+                        <div class="input-field col-md-12">
+                            <textarea class="form-control mb-2 mr-sm-2 text-monospace" style="font-family: monospace; height:80px"
+                                rows="4" id="inputRolePolicy" name="inputRolePolicy" readonly></textarea>
+                            <label class="active" for="inputRolePolicy">Role Policy
+                                <!-- <i class="fa fa-copy"></i> -->
+                            </label>
+                            <button id="setupCloudAccountAccess" type="button" class="btn btn-info btn-small">
+                                Setup Access Role using CloudFormation
+                            </button>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="input-field col-md-9">
+                            <label class="active" for="inputCrossAccountRoleARN">Role ARN from CloudFormation
+                            </label>
+                            <input type="text" class="validate" id="inputCrossAccountRoleARN" name="inputCrossAccountRoleARN"
+                                placeholder="e.g. arn:aws:iam::123412341234:role/CrossAccountRoleSetup-CrossAccountRole-ABCD123EF45"
+                                required>
+                            <span class="helper-text" data-error="enter valid Role ARN for your managed AWS Account"></span>
+                        </div>
+                        <div class="input-field col-md-3">
+                            <button id="testCloudAccountAccess" type="button" class="btn btn-info btn-small">
+                                Test Connection
+                            </button>
+                        </div>
+                    </div>
+                    <button id="saveCloudConnection" type="submit" class="btn btn-primary">
+                        Save Cloud Connection
+                    </button>
+                    <hr/>
+                    <div class="row col-md-12" hidden>
+                        <h5>Cloud Connections</h5>
+                        <table class="table table-sm" id="cloudConnectionsList">
+                            <caption class="sr-only">Cloud Connections</caption>
+                            <thead>
+                                <tr>
+                                    <th>Connection</th>
+                                    <th>Account</th>
+                                    <th>External ID</th>
+                                    <th>Role ARN</th>
+                                    <th>Account Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </template>
+
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+        <!-- MaterializeCSS Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <!-- Materialize Stepper -->
+        <!-- <script src="https://unpkg.com/materialize-stepper@3.0.1/dist/js/mstepper.min.js"></script> -->
+        <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+        <script defer src="js/stepper.min.js"></script>
+
+        <!-- Bootstrap JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+        </script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+        </script>
+
+        <!-- jQuery Validate -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.min.js"></script> -->
+
+        <!-- SmartWizard -->
+        <!-- <script src="js/jquery.smartWizard.min.js"></script> -->
+
+        <!-- Cognito scripts and module -->
+        <script src="js/aws-cognito-sdk.min.js"></script>
+        <script src="js/amazon-cognito-identity.min.js"></script>
+        <script type="module" src="js/cognitoModule.js"></script>
+
+        <script type="module" src="js/clientConfig.js"></script>
+        <script type="module" src="js/register.js"></script>
+
+</body>
+
+</html>

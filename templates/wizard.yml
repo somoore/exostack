@@ -1,0 +1,94 @@
+Description: This template creates a Cross-Account-Role that will grant the Exostack Self-Service Portal required permissions to manage your account.
+Parameters:
+  TrustedAccount:
+    Type: String
+    Description: Account ID for Cross-Account-Role
+  ExternalId:
+    Type: String
+    Description: External ID for Cross-Account-Role
+Metadata: 
+  AWS::CloudFormation::Interface: 
+    ParameterGroups: 
+      -
+        Label: 
+          default: "Cross-Account Role Configuration for Exostack Self-Service Portal. 
+                      !! **** IMPORTANT: Please Do Not Modify Parameter Values **** !!"
+        Parameters: 
+          - TrustedAccount
+          - ExternalId
+    ParameterLabels: 
+      TrustedAccount: 
+        default: "AWS Account ID to Grant Permission"
+      ExternalID:
+        default: "External ID"
+Resources:
+  # This is the cross account role that will be operated by the Self-Service Portal
+  CrossAccountRole:
+    # This role should have the scoped down permissions*********
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: 'sts:AssumeRole'
+          Effect: Allow
+          Principal:
+            AWS: !Sub arn:aws:iam::${TrustedAccount}:root
+          Condition:
+            StringEquals:
+              sts:ExternalId: !Ref ExternalId
+          Sid: ''
+        Version: '2012-10-17'
+      Path: "/"
+      Policies:
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - "ec2:AuthorizeSecurityGroupIngress"
+            - "ec2:AuthorizeSecurityGroupEgress"
+            - "ec2:RevokeSecurityGroupIngress"
+            - "ec2:RevokeSecurityGroupEgress"
+            - "ec2:DescribeInstances"
+            - "ec2:DescribeSecurityGroups"
+            - "ec2:CreateSecurityGroup"
+            - "ec2:CreateTags"
+            - "ec2:DescribeInstanceAttribute"
+            - "ec2:ModifyInstanceAttribute"
+            - "ec2:RunInstances"
+            - "ec2:StartInstances"
+            - "ec2:StopInstances"
+            - "ec2:RebootInstances"
+            - "ec2:TerminateInstances"
+            - "ec2:DescribeRegions"
+            - "ec2:DescribeVpcs"
+            - "ec2:DescribeSubnets"
+            - "ec2:DescribeImages"
+            - "ec2:DescribeKeyPairs"
+            - "ec2:GetConsoleOutput"
+            - "ec2:GetConsoleScreenshot"
+            - "workspaces:DescribeWorkspaces"
+            - "workspaces:DescribeWorkspacesConnectionStatus"
+            - "workspaces:DescribeWorkspaceBundles"
+            - "workspaces:DescribeWorkspaceDirectories"
+            - "workspaces:DescribeTags"
+            - "workspaces:CreateWorkspaces"
+            - "workspaces:StartWorkspaces"
+            - "workspaces:StopWorkspaces"
+            - "workspaces:TerminateWorkspaces"
+            - "workspaces:RebootWorkspaces"
+            - "workspaces:RebuildWorkspaces"
+            - "workdocs:DescribeUsers"
+            - "pricing:GetAttributeValues"
+            - "pricing:GetProducts"
+            - "ec2:DescribeRouteTables"
+            - "ec2:DescribeInternetGateways"
+            - "ec2:CreateRoute"
+            - "ec2:DeleteRoute"
+            Effect: Allow
+            Resource: "*"
+          Version: '2012-10-17'
+        PolicyName: SelfServicePortalCloudAccess
+    Type: 'AWS::IAM::Role'
+Outputs:
+    CrossAccountRoleARN:
+      Description: 'Role ARN for the Exostack Self-Service Portal Cross-Account role. Please copy and use this to complete the registration flow.'
+      Value:
+        Fn::GetAtt : ["CrossAccountRole", "Arn"]

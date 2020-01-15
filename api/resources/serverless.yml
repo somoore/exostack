@@ -1,0 +1,83 @@
+# This deploys a completely independent stack for Cognito 
+#  resources required in the Exostack Serverless Self-Service Portal
+#   - this should be deployed before other application services stacks
+#   - exports the Cognito UserPool ID and AppClient ID
+
+service: exostack-backend-Cognito
+
+custom:
+  UserPoolName: Exostack_User_Pool
+  WebAppClientName: Exostack_User_Pool_WebAppClient
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: ${opt:stage, 'dev'}
+  region: ${file(../envs/${self:provider.stage}.yml):region}
+  profile: ${file(../envs/${self:provider.stage}.yml):profile}
+  deploymentBucket: ${file(../envs/${self:provider.stage}.yml):deploymentBucket}
+
+resources:
+  Description: Cognito resources in Serverless stack for the Exostack Self-Service Portal
+
+  Resources:
+    # Cognito - User pool
+    CognitoUserPoolAppUsers:
+      # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpool.html
+      Type: AWS::Cognito::UserPool
+      Properties:
+        # UserPoolName: ${file(../envs/${self:provider.stage}.yml):CognitoUserPoolName}-${self:provider.stage}
+        UserPoolName: ${self:custom.UserPoolName}-${self:provider.stage}
+        EmailVerificationSubject: Your verification code for the Exostack Self-Service Portal
+        EmailVerificationMessage: Your verification code is {####}.   Please sign-in to the Exostack Self-Service Portal using the password provided by your Admin.
+        MfaConfiguration: OFF #OPTIONAL
+        UsernameAttributes:
+          - email
+        AutoVerifiedAttributes:
+          - email
+        Schema:
+          - Name: email
+            AttributeDataType: String
+            Mutable: true # required attributes are always writeable
+            Required: true
+          - Name: given_name
+            AttributeDataType: String
+            Mutable: true
+            Required: true
+          - Name: family_name
+            AttributeDataType: String
+            Mutable: true
+            Required: true
+          - Name: tenantId
+            AttributeDataType: String
+            Mutable: true
+            Required: false # custom attributes cannot be required
+          - Name: appRole
+            AttributeDataType: String
+            Mutable: true
+            Required: false # custom attributes cannot be required
+          - Name: userTags
+            AttributeDataType: String
+            Mutable: true
+            Required: false # custom attributes cannot be required
+
+    # Cognito - Client
+    CognitoUserPoolAppClient:
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+        ClientName: ${self:custom.WebAppClientName}-${self:provider.stage}
+        UserPoolId:
+          Ref: CognitoUserPoolAppUsers
+
+  Outputs:
+    UserPoolId:
+      Value:
+        Ref: CognitoUserPoolAppUsers
+      Export:
+        Name: CognitoUserPoolAppUsers-Name-${self:provider.stage}
+
+    UserPoolClientId:
+      Value:
+        Ref: CognitoUserPoolAppClient
+      Export:
+        Name: CognitoUserPoolAppClient-Id-${self:provider.stage}

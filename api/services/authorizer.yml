@@ -1,0 +1,7 @@
+authorizer:  # authorizerFunc
+  type: token
+  name: authorizerFunc
+  resultTtlInSeconds: 0
+  identitySource: method.request.header.Authorization
+  # identityValidationExpression: someRegex
+  

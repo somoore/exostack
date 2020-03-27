@@ -1,4 +1,6 @@
-﻿![enter image description here](https://exostack-core-images.s3.amazonaws.com/exo-logo.png)
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/somoore/exostack) 
+
+![enter image description here](https://exostack-core-images.s3.amazonaws.com/exo-logo.png)
 # exostack core | Deployment Guide
 
 **Live Demo**

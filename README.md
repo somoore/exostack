@@ -23,7 +23,7 @@ Visit the live demo [here](https://demo.exostack.com) (credentials pre-filled)
 
 
 **Prerequisites** 
-- git clone  https://github.com/exostack-oss/exostack-core.git
+- git clone  https://github.com/somoore/exostack.git
 -  Access to the AWS Console & CLI for any Account & Region you wish to deploy (including GovCloud)
 - Ensure [Node.js LTS](https://nodejs.org/en/download/) (8.x or higher) is installed on the deployment workstation
 - Install the [Serverless Framework](https://serverless.com/framework/docs/getting-started/) globally on the deployment workstation

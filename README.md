@@ -4,7 +4,7 @@
 # exostack core | Deployment Guide
 
 **Live Demo**
-Visit the live demo [here](https://demo.exostack.com) (credentials pre-filled)
+Visit the live demo [here](https://dev.exostack.com) 
 
 **Features**
 - Open Source, Serverless, deploy in your own AWS account(s)

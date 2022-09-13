@@ -33,6 +33,6 @@
     "serverless-offline-scheduler": "^0.3.8",
     "serverless-pseudo-parameters": "^2.4.0",
     "serverless-stage-manager": "^1.0.5",
-    "serverless-step-functions": "^2.2.0"
+    "serverless-step-functions": "^2.32.0"
   }
 }

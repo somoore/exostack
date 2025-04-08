@@ -15,10 +15,6 @@
 - Support for virtual MFA (Authy, Google Auth)
 
 
-**Exostack Core Architecture** 
-![enter image description here](https://exostack-core-images.s3.amazonaws.com/Exostack-Arch.png)
-
-
 **Prerequisites** 
 - git clone  https://github.com/somoore/exostack.git
 -  Access to the AWS Console & CLI for any Account & Region you wish to deploy (including GovCloud)
@@ -49,7 +45,6 @@ e.g. **profile: 544294691318_AdministratorAccess**
 `sls deploy -v --stage _prod1_`
 
 - Upon completion, make a **note** of the CloudFormation stack Outputs, as you will need this info later:
-![enter image description here](https://exostack-core-images.s3.amazonaws.com/stackoutput-1.png)
 
 **Update the services serverless.yml files**
 
@@ -109,11 +104,7 @@ e.g.: **ServiceEndpoint: https://jmmegv8h17.execute-api.us-gov-east-1.amazonaws.
 - Attributes to verify : **Email**
 - Save changes
 
-![enter image description here](https://exostack-core-images.s3.amazonaws.com/cog_user_pool1.png)
-
 5. Under the Triggers section, update the **Post confirmation** trigger Lambda function to **exostack-backend-_prod1_-userConfirmationTrigger** and **Save** changes.
-
-![enter image description here](https://exostack-core-images.s3.amazonaws.com/cog_user_pool2.png)
 
 # Front-End Web Deploy | AWS (Public)
 
@@ -134,8 +125,6 @@ e.g.: **bucketName: exostack-website-prod1**
 -- **API_BASE_URL:**  ServiceEndpoint from the step H.
 -- **HOSTING_AWS_ACCOUNT_ID:** AWS Account ID for the GovCloud account
 
-![enter image description here](https://exostack-core-images.s3.amazonaws.com/clientConfig-js.png)
-
 **(Optional)** Setup an S3 bucket for CrossAccountRole CloudFormation templates **wizard.yml** files
 1. Create another new S3 bucket for hosting the templates
 2. Upload the **wizard.yml** and **wizard-govcloud.yml** files from the **templates** folder
@@ -143,7 +132,6 @@ e.g.: **bucketName: exostack-website-prod1**
 4. Copy the URLs for both the files and update them
 
 - Update the S3 template URLs in **web-jquery/dist/js/clientConfig.js** on lines 110-111:
-![enter image description here](https://exostack-core-images.s3.amazonaws.com/update-s3-temp.png)
 
 5. Install the serverless-finch plugin by running the below command from the **web-jquery** folder
 `npm install -D serverless-finch`
@@ -153,14 +141,10 @@ e.g.: **bucketName: exostack-website-prod1**
 `serverless client deploy`
 8. Confirm the upload and bucket configuration updates.
 - Upon completion, navigate to the S3 website URL (see endpoint below) for a quick confirmation:
-![enter image description here](https://exostack-core-images.s3.amazonaws.com/sls-client-deploy.png)
 
 # CloudFront Setup
  - From the AWS Console in the Public Account, navigate to the CloudFront console and Create new Web distribution with the following settings:
  - Origin Settings - choose the S3 bucket used for the website hosting -
-![enter image description here](https://exostack-core-images.s3.amazonaws.com/create-distribution.png)
-![enter image description here](https://exostack-core-images.s3.amazonaws.com/default-cache.png)
-![enter image description here](https://exostack-core-images.s3.amazonaws.com/dist-settings.png)
 
 **(Optional) ACM Certificates**
  - Request and validate ACM certificates in US-East-1 region of the
